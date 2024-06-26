@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6d5bc66ce41015fa6ad7734ad067e826",
+    "content-hash": "9c491b8531eec05ba41a11d9276a5749",
     "packages": [
         {
             "name": "brick/math",
@@ -1044,75 +1044,6 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
-        },
-        {
-            "name": "illuminated/wikipedia-grabber",
-            "version": "10.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/dmitry-ivanov/laravel-wikipedia-grabber.git",
-                "reference": "96060e9bd419714367ebabac3c1d7e285273f111"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/dmitry-ivanov/laravel-wikipedia-grabber/zipball/96060e9bd419714367ebabac3c1d7e285273f111",
-                "reference": "96060e9bd419714367ebabac3c1d7e285273f111",
-                "shasum": ""
-            },
-            "require": {
-                "guzzlehttp/guzzle": "^7.5",
-                "guzzlehttp/psr7": "^2.0",
-                "illuminate/support": "^10.0",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.5.1",
-                "orchestra/testbench": "^8.0",
-                "phpunit/phpunit": "^10.5"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Illuminated\\Wikipedia\\WikipediaGrabberServiceProvider"
-                    ],
-                    "aliases": {
-                        "Wikipedia": "Illuminated\\Wikipedia\\Wikipedia",
-                        "MediaWiki": "Illuminated\\Wikipedia\\MediaWiki"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Illuminated\\Wikipedia\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Dmitry Ivanov",
-                    "email": "dmitry.g.ivanov@gmail.com"
-                }
-            ],
-            "description": "Wikipedia/MediaWiki Grabber for Laravel.",
-            "keywords": [
-                "grabber",
-                "laravel",
-                "mediawiki",
-                "parser",
-                "wiki",
-                "wikipedia",
-                "wikipedia-grabber",
-                "wikipedia-parser"
-            ],
-            "support": {
-                "issues": "https://github.com/dmitry-ivanov/laravel-wikipedia-grabber/issues",
-                "source": "https://github.com/dmitry-ivanov/laravel-wikipedia-grabber"
-            },
-            "time": "2024-03-06T21:53:41+00:00"
         },
         {
             "name": "laravel/framework",

@@ -9,7 +9,7 @@ use App\Http\Controllers\API\Constructors\ConstructorListController;
 use App\Http\Controllers\API\Constructors\ConstructorController;
 use App\Http\Controllers\API\Circuits\CircuitListController;
 use App\Http\Controllers\API\GrandPrix\NextGrandPrixController;
-use App\Http\Controllers\API\GrandPrix\grandPrixListController;
+use App\Http\Controllers\API\GrandPrix\GrandPrixListController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

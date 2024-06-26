@@ -28,7 +28,7 @@ class Handler extends ExceptionHandler
             //
         });
 
-        // General exception handler
+        // API Routes not found exception
         $this->renderable(function (NotFoundHttpException $e, $request) {
             if ($request->is('api/*')) {
                 return response()->json([

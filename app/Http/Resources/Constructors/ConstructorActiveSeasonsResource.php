@@ -5,7 +5,7 @@ namespace App\Http\Resources\Constructors;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ConstructorInformationResource extends JsonResource
+class ConstructorActiveSeasonsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,8 @@ class ConstructorInformationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Team' => $this['constructor']->name,
-            'Nationality' => $this['constructor']->nationality,
-            'Wikipedia link' => $this['constructor']->url,
-            'Wikipedia img' => $this['wikiImg']
+            'Total' => (string) $this['total'],
+            'Seasons list' => (string) $this['year']
         ];
     }
 }

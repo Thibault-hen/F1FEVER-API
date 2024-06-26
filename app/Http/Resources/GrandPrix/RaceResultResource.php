@@ -15,14 +15,14 @@ class RaceResultResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->fullname,
-            "Nationality" => $this->nationality,
-            "Team" => $this->constructors,
-            "Time" => $this->time,
-            "Status" => $this->status === "Finished" ? $this->status : "DNF",
-            "Laps completed" => $this->laps,
-            "Starting position" => $this->grid,
-            "Final Position" => $this->positionOrder
+            'Name' => $this->fullname,
+            'Nationality' => $this->nationality,
+            'Team' => $this->constructors,
+            'Time' => $this->time ?? 'N/A',
+            'Status' => stripos($this->status, 'laps') !== false || stripos($this->status, 'lap') !== false || $this->status === 'Finished' ? $this->status : 'DNF',
+            'Laps completed' => (string) $this->laps,
+            'Starting position' => (string) $this->grid,
+            'Final Position' => (string) $this->positionOrder
         ];
     }
 }

@@ -18,10 +18,10 @@ class QualiResultResource extends JsonResource
             "Name" => $this->fullname,
             "Nationality" => $this->nationality,
             "Team" => $this->constructors,
-            "q1 Time" => $this->q1,
-            "q2 Time" => $this->q2,
-            "q3 Time" => $this->q3,
-            "Position" => $this->position
+            "q1 Time" => $this->q1 ?? 'N/A',
+            "q2 Time" => $this->q2 ?? 'N/A',
+            "q3 Time" => $this->q3 ?? 'N/A',
+            "Position" => (string) $this->position
         ];
     }
 }

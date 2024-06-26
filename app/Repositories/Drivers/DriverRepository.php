@@ -9,7 +9,6 @@ use App\Models\Races;
 use App\Models\Results;
 use App\Models\Sprintresults;
 use App\Services\WikiDataService;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class DriverRepository

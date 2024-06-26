@@ -2,65 +2,48 @@
 
 namespace App\Services;
 
-use DOMDocument;
-use DOMXPath;
-use Illuminated\Wikipedia\Wikipedia;
+use Illuminate\Support\Facades\Http;
+
 
 class WikiDataService
 {
+    public string $urlApi = "https://en.wikipedia.org/w/api.php";
+    public string $url = "https://en.wikipedia.org/wiki/";
     protected string $wikiSummary;
-    protected string $wikiImg;
+    protected string $wikiImg = '';
     public function setWikiData(string $url)
-    { 
-        $page = (new Wikipedia)->page(basename($url));
+    {
+        $pageTitle = basename($url);
 
-        $zebi = $page->getBody();
+        $params = [
+            'action' => 'query',
+            'titles' => $pageTitle,
+            'prop' => 'pageimages',
+            'format' => 'json',
+            'pithumbsize' => 500,
+        ];
 
-        $dom = new DOMDocument();
+        $query_url = $this->urlApi . '?' . http_build_query($params);
 
-        @$dom->loadHTML($zebi);
-        $xpath = new DOMXPath($dom);
+        $response = Http::get($query_url);
 
-         $plainText = '';
-        // // Extract paragraphs (from the first div.iwg-section)
-        // $firstSection = $xpath->query('//div[contains(@class, "iwg-section")][1]');
-        // if ($firstSection->length > 0) {
-        //     // Select all direct child nodes of the first .iwg-section div
-        //     $childNodes = $firstSection->item(0)->childNodes;
+        // Check if the request was successful
+        if ($response->successful()) {
+            $data = $response->json();
+            $page_id = key($data['query']['pages']);
 
-        //     // Process each child node
-        //     foreach ($childNodes as $childNode) {
-        //         // Exclude nodes with class iwg-media-desc
-        //         if ($childNode->nodeType === XML_TEXT_NODE || ($childNode->nodeName === 'br' && $childNode->parentNode->nodeName === 'div' && strpos($childNode->parentNode->getAttribute('class'), 'iwg-section') !== false)) {
-        //             $text = trim($childNode->nodeValue);
-
-        //             // If the node is <br>, append newline to plain text
-        //             if ($childNode->nodeName === 'br') {
-        //                 $plainText .= "\n";
-        //             } else {
-        //                 // Append text to plain string with a space
-        //                 $plainText .= ' ' . $text;
-        //             }
-        //         }
-        //     }
-        // }
-
-        // Extract the main image
-        $mainImage = null;
-        $imgNodes = $xpath->query('//div[contains(@class, "iwg-media") and contains(@class, "right")]//img');
-        if ($imgNodes->length > 0) {
-            $mainImage = $imgNodes->item(0)->getAttribute('src');
+            // Check if the thumbnail exists in the response
+            if (!empty($data['query']['pages'][$page_id]['thumbnail']['source'])) {
+                $this->wikiImg = $data['query']['pages'][$page_id]['thumbnail']['source'];
+            }
         }
-
-        // $this->wikiSummary = $plainText;
-        $this->wikiImg = $mainImage;
     }
-    public function getWikiSummary() : string
+    public function getWikiSummary(): string
     {
         return $this->wikiSummary;
     }
 
-    public function getWikiImg() : string
+    public function getWikiImg(): string
     {
         return $this->wikiImg;
     }
