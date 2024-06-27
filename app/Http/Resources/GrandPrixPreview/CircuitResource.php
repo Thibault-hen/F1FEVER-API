@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\MimifiedGrandPrix;
+namespace App\Http\Resources\GrandPrixPreview;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class RaceResultResource extends JsonResource
+class CircuitResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,10 +15,9 @@ class RaceResultResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Starting position" => $this->grid,
-            "Name" => $this->fullname,
-            "Nationality" => $this->nationality,
-            "Time" => $this->time,
+            'name' => $this->name,
+            'location' => $this->location,
+            'country' => $this->country
         ];
     }
 }

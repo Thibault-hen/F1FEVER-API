@@ -19,15 +19,15 @@ class DriverListController extends Controller
     }
     public function getAllDrivers(): JsonResponse
     {
-        return response()->json(["Data" => $this->driverListRepository->getAllDrivers()], 200);
+        return response()->json(['data' => $this->driverListRepository->getAllDrivers()], 200);
     }
 
     public function getAllDriversBySeason(Request $request): JsonResponse
     {
-        $season = $request->route("season");
+        $season = $request->route('season');
 
         $this->seasonService->validateSeasonRange($season);
 
-        return response()->json(["Data" => $this->driverListRepository->getAllDriversBySeason($season)], 200);
+        return response()->json(['data' => $this->driverListRepository->getAllDriversBySeason($season)], 200);
     }
 }

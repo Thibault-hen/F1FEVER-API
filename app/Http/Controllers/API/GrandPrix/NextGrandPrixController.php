@@ -18,9 +18,9 @@ class NextGrandPrixController extends Controller
         $nextRound = $this->raceScheduleRepository->getNextRound();
 
         if (!$nextRound) {
-            return response()->json(["error" => "No next round data found"], 404);
+            return response()->json(['error' => 'No next round data found'], 404);
         }
 
-        return response()->json(["Data" => $nextRound], 200);
+        return response()->json(['data' => $nextRound], 200);
     }
 }

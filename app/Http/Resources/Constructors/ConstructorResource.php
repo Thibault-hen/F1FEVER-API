@@ -15,11 +15,11 @@ class ConstructorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Constructor Information' => new ConstructorInformationResource($this->resource['basicData']),
-            'Race Stats' => new ConstructorRaceStatsResource($this->resource['raceStats']),
-            'First Race Entered' => ConstructorFirstRaceResource::collection($this->resource['firstRaceEntered']),
-            'Last Race Entered' => ConstructorLastRaceResource::collection($this->resource['lastRaceEntered']),
-            'Total active seasons' => new ConstructorActiveSeasonsResource($this->resource['totalSeasons']),
+            'constructor_info' => new ConstructorInformationResource($this->resource['basicData']),
+            'race_stats' => new ConstructorRaceStatsResource($this->resource['raceStats']),
+            'first_race_entered' => ConstructorFirstRaceResource::collection($this->resource['firstRaceEntered']),
+            'last_race_entered' => ConstructorLastRaceResource::collection($this->resource['lastRaceEntered']),
+            'total_active_seasons' => new ConstructorActiveSeasonsResource($this->resource['totalSeasons']),
         ];
     }
 }

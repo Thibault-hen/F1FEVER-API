@@ -15,11 +15,11 @@ class CurrentGrandPrixListResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->name,
-            "Location" => $this->location,
-            "Country" => $this->country,
-            "Time" => $this->time,
-            "Date" => $this->date
+            'name' => $this->name,
+            'location' => $this->location,
+            'country' => $this->country,
+            'time' => $this->time,
+            'date' => $this->date
         ];
     }
 }

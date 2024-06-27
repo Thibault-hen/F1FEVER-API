@@ -19,10 +19,10 @@ class DriverController extends Controller
 
     public function getDriver(Request $request)
     {
-        $name = $request->route("name");
+        $name = $request->route('name');
 
         $this->driverService->validateDriverName($name);
 
-        return response()->json(['Data' => $this->driverRepository->getDriverData($name)], 200);
+        return response()->json(['data' => $this->driverRepository->getDriverData($name)], 200);
     }
 }

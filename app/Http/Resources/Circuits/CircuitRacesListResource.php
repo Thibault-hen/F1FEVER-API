@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Constructors;
+namespace App\Http\Resources\Circuits;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
 
-class ConstructorFirstRaceResource extends JsonResource
+class CircuitRacesListResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,11 @@ class ConstructorFirstRaceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'year' => (string)$this->first_race_year,
             'name' => $this->name,
-            'country' => $this->country,
-            'slug' => Str::slug($this->name) . '/' . $this->first_race_year
+            'season' => (string) $this->year,
+            'date' => $this->date,
+            'time' => $this->time,
+            'slug' => Str::slug($this->gp_name) . '/' . $this->year
         ];
     }
 }

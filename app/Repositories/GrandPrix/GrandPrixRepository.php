@@ -4,17 +4,17 @@ namespace App\Repositories\GrandPrix;
 
 use App\Exceptions\InvalidGrandPrixException;
 use App\Http\Resources\GrandPrix\GrandPrixResource;
-use App\Http\Resources\MimifiedGrandPrix\MimifiedGrandPrixResource;
+use App\Http\Resources\GrandPrixPreview\GrandPrixPreviewResource;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Collection;
 use App\Models\Races;
-use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class GrandPrixRepository
 {
 
     protected Collection $raceResult;
     protected Collection $qualiResult;
+    protected $raceName;
     protected $raceWinner;
     protected $poleMan = [];
     protected $circuit;
@@ -25,31 +25,35 @@ class GrandPrixRepository
         $this->setRaceId($name, $season);
 
         //Collecting various data about the grand prix using the raceId
-        $this->setRaceResultData();
-        $this->setQualiResultData();
+        $this->setRaceName();
+        $this->setRaceResult();
+        $this->setQualiResult();
 
         $this->setRaceWinner();
         $this->setPoleman();
         $this->setCircuit();
 
         return new GrandPrixResource([
-            "raceResult" => $this->raceResult,
-            "qualiResult" => $this->qualiResult,
-            "raceWinner" => $this->raceWinner,
-            "poleMan" => $this->poleMan,
-            "circuit" => $this->circuit
+            'raceName' => $this->raceName,
+            'raceResult' => $this->raceResult,
+            'qualiResult' => $this->qualiResult,
+            'raceWinner' => $this->raceWinner,
+            'poleMan' => $this->poleMan,
+            'circuit' => $this->circuit
         ]);
     }
 
-    public function getMimifiedGrandPrixData(string $name, int $season): MimifiedGrandPrixResource
+    public function getGrandPrixPreviewData(string $name, int $season): GrandPrixPreviewResource
     {
         $this->setRaceId($name, $season);
-        $this->setRaceResultData();
+        $this->setRaceName();
+        $this->setRaceResult();
         $this->setCircuit();
 
-        return new MimifiedGrandPrixResource([
-            "raceResult" => $this->raceResult->take(10),
-            "circuit" => $this->circuit
+        return new GrandPrixPreviewResource([
+            'raceName' => $this->raceName,
+            'raceResult' => $this->raceResult->take(10),
+            'circuit' => $this->circuit
         ]);
     }
 
@@ -65,7 +69,13 @@ class GrandPrixRepository
 
         $this->raceId = $raceId;
     }
-    private function setRaceResultData(): void
+
+    private function setRaceName(): void
+    {
+        $this->raceName = Races::where('raceId', $this->raceId)
+            ->first();
+    }
+    private function setRaceResult(): void
     {
         $raceResult = DB::table('results')
             ->select(
@@ -100,7 +110,7 @@ class GrandPrixRepository
 
         $this->raceResult = $raceResult;
     }
-    private function setQualiResultData(): void
+    private function setQualiResult(): void
     {
         $raceId = $this->raceId;
         $qualiResult = DB::table('results')

@@ -15,12 +15,12 @@ class ConstructorStandingsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->name,
-            "Nationality" => $this->nationality,
-            "Position" => $this->position,
-            "Wins" => $this->wins,
-            "Points" => $this->points,
-            "Gap" => $this->points_gap
+            'name' => $this->name,
+            'nationality' => $this->nationality,
+            'position' => (string) $this->position,
+            'wins' => (string) $this->wins,
+            'points' => (string) $this->points,
+            'gap' => (string) $this->points_gap
         ];
     }
 }

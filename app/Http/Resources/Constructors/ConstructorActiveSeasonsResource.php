@@ -15,8 +15,8 @@ class ConstructorActiveSeasonsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Total' => (string) $this['total'],
-            'Seasons list' => (string) $this['year']
+            'total' => (string) $this['total'],
+            'seasons_list' => (string) $this['year']
         ];
     }
 }

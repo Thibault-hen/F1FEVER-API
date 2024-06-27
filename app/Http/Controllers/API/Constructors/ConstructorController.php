@@ -18,10 +18,10 @@ class ConstructorController extends Controller
     }
     public function getConstructor(Request $request)
     {
-        $name = $request->route("name");
+        $name = $request->route('name');
 
         $this->constructorService->validateConstructorName($name);
 
-        return response()->json(['Constructor' => $this->constructorRepository->getConstructorData($name)], 200);
+        return response()->json(['data' => $this->constructorRepository->getConstructorData($name)], 200);
     }
 }

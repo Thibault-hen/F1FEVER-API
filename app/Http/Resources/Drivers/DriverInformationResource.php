@@ -15,13 +15,13 @@ class DriverInformationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Name' => $this['driver']->forename . ' ' . $this['driver']->surname,
-            'Number' => (string) $this['driver']->number ?? 'N/A',
-            'Code' => $this['driver']->code ?? 'N/A',
-            'Date of birth' => $this['driver']->dob,
-            'Nationality' => $this['driver']->nationality,
-            'Wikipedia link' => $this['driver']->url,
-            'Wikipedia img' => $this['wikiImg']
+            'name' => $this['driver']->forename . ' ' . $this['driver']->surname,
+            'number' => (string) $this['driver']->number ?? 'N/A',
+            'code' => $this['driver']->code ?? 'N/A',
+            'date_of_birth' => $this['driver']->dob,
+            'nationality' => $this['driver']->nationality,
+            'wikipedia_link' => $this['driver']->url,
+            'wikipedia_img' => $this['wikiImg']
         ];
     }
 }

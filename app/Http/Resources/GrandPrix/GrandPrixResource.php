@@ -20,11 +20,12 @@ class GrandPrixResource extends JsonResource
     public function toArray(Request $request): array
     {    
         return [
-            'Race result' => RaceResultResource::collection($this->resource['raceResult']),
-            'Quali result' => QualiResultResource::collection($this->resource['qualiResult']),
-            'Race Winner' => new RaceWinnerResource($this->resource['raceWinner']),
-            'Pole Sitter' => new PoleManResource($this->resource['poleMan']),
-            'Circuit' => new CircuitResource($this->resource['circuit']),
+            'grand_prix_name' => new RaceNameResource($this->resource['raceName']),
+            'race_result' => RaceResultResource::collection($this->resource['raceResult']),
+            'quali_result' => QualiResultResource::collection($this->resource['qualiResult']),
+            'race_winner' => new RaceWinnerResource($this->resource['raceWinner']),
+            'pole_sitter' => new PoleManResource($this->resource['poleMan']),
+            'circuit' => new CircuitResource($this->resource['circuit']),
         ];
     }
 }

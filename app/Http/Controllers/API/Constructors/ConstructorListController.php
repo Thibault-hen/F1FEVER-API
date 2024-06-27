@@ -19,16 +19,16 @@ class ConstructorListController extends Controller
     }
     public function getAllConstructors(): JsonResponse
     {
-        return response()->json(["data" => $this->constructorListRepository->getAllConstructors()], 200);
+        return response()->json(['data' => $this->constructorListRepository->getAllConstructors()], 200);
     }
 
     public function getAllConstructorsBySeason(Request $request): JsonResponse
     {
 
-        $season = $request->route("season");
+        $season = $request->route('season');
 
         $this->seasonService->validateSeasonRange($season);
 
-        return response()->json(["data" => $this->constructorListRepository->getAllConstructorsBySeason($season)], 200);
+        return response()->json(['data' => $this->constructorListRepository->getAllConstructorsBySeason($season)], 200);
     }
 }

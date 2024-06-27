@@ -15,9 +15,9 @@ class CircuitResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->name,
-            "Location" => $this->location,
-            "Country" => $this->country
+            'name' => $this->name,
+            'location' => $this->location,
+            'country' => $this->country
         ];
     }
 }

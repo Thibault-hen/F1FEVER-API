@@ -4,6 +4,7 @@ namespace App\Http\Resources\Constructors;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class AllConstructorsResource extends JsonResource
 {
@@ -15,9 +16,10 @@ class AllConstructorsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->name,
-            "Nationality" => $this->nationality,
-            "Wikipedia link" => $this->url
+            'name' => $this->name,
+            'nationality' => $this->nationality,
+            'wikipedia_link' => $this->url,
+            'slug' => Str::slug($this->constructorRef)
         ];
     }
 }

@@ -29,15 +29,15 @@ class StandingsController extends Controller
 
         $standings = $this->standingsRepository->$type($season);
 
-        return response()->json($standings, 200);
+        return response()->json(['data' => $standings], 200);
     }
     public function driverStandings(Request $request): JsonResponse
     {
-        return $this->getStandings($request->route("season"), "drivers");
+        return $this->getStandings($request->route('season'), 'drivers');
     }
 
     public function constructorStandings(Request $request): JsonResponse
     {
-        return $this->getStandings($request->route("season"), "constructors");
+        return $this->getStandings($request->route('season'), 'constructors');
     }
 }

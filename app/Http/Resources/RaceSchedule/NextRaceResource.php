@@ -15,15 +15,15 @@ class NextRaceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->name,
-            "Date" => $this->date,
-            "Time" => $this->time,
-            "Wikipedia link" => $this->url,
-            "Location" => $this->location,
-            "Country" => $this->country,
-            "Circuit lat" => $this->lat,
-            "Circuit lng" => $this->lng,
-            "Circuit alt" => $this->alt
+            'name' => $this->name,
+            'date' => $this->date,
+            'time' => $this->time,
+            'wikipedia_link' => $this->url,
+            'location' => $this->location,
+            'country' => $this->country,
+            'circuit_lat' => $this->lat,
+            'circuit_lng' => $this->lng,
+            'circuit_alt' => $this->alt
         ];
     }
 }

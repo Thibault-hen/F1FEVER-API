@@ -15,13 +15,13 @@ class QualiResultResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->fullname,
-            "Nationality" => $this->nationality,
-            "Team" => $this->constructors,
-            "q1 Time" => $this->q1 ?? 'N/A',
-            "q2 Time" => $this->q2 ?? 'N/A',
-            "q3 Time" => $this->q3 ?? 'N/A',
-            "Position" => (string) $this->position
+            'name' => $this->fullname,
+            'nationality' => $this->nationality,
+            'team' => $this->constructors,
+            'q1_time' => $this->q1 ?? 'N/A',
+            'q2_time' => $this->q2 ?? 'N/A',
+            'q3_time' => $this->q3 ?? 'N/A',
+            'position' => (string) $this->position
         ];
     }
 }

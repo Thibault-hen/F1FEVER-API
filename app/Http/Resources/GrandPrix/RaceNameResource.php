@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Drivers;
+namespace App\Http\Resources\GrandPrix;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DriverActiveSeasonsResource extends JsonResource
+class RaceNameResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,8 +15,8 @@ class DriverActiveSeasonsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'total' => (string) $this['total'],
-            'seasons_list' => (string) $this['year']
+            'name' => $this->name,
+            'year' => (string) $this->year
         ];
     }
 }

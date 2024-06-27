@@ -15,11 +15,11 @@ class ConstructorRaceStatsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Total races' => (string) $this['totalRaces'],
-            'Total podiums' => (string) $this['totalPodiums'],
-            'Total wins' => (string) $this['totalWins'],
-            'Total points' => (string) $this['totalPoints'],
-            'Total poles' => (string) $this['totalPoles']
+            'total_races' => (string) $this['totalRaces'],
+            'total_podiums' => (string) $this['totalPodiums'],
+            'total_wins' => (string) $this['totalWins'],
+            'total_points' => (string) $this['totalPoints'],
+            'total_poles' => (string) $this['totalPoles']
         ];
     }
 }

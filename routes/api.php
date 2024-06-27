@@ -38,7 +38,7 @@ Route::prefix("/standings")->controller(StandingsController::class)->group(funct
 Route::prefix("/grand-prix")->controller(GrandprixController::class)->group(function () {
     Route::get("/{name}/{season}", "getGrandPrix")->name("grand-prix.specific");
     Route::get("/latest", "getGrandPrix")->name("grand-prix.latest");
-    Route::get("/latest-mimified", "getMimifiedGrandPrix")->name("grand-prix.latest-mimified");
+    Route::get("/latest-preview", "getGrandPrixPreview")->name("grand-prix.latest-preview");
 });
 
 //Drivers list routes

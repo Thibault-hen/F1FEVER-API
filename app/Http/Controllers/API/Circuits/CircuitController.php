@@ -19,10 +19,10 @@ class CircuitController extends Controller
 
     public function getCircuit(Request $request)
     {
-        $name = $request->route("name");
+        $name = $request->route('name');
 
         $this->circuitService->validateCircuitName($name);
 
-        return response()->json(['Data' => $this->circuitRepository->getCircuitData($name)], 200);
+        return response()->json(['data' => $this->circuitRepository->getCircuitData($name)], 200);
     }
 }

@@ -17,10 +17,10 @@ class PoleManResource extends JsonResource
     {
 
         return [
-            "Name" => $this->fullname ?? "N/A",
-            "Nationality" => $this->nationality ?? "N/A",
-            "Team" => $this->constructors ?? "N/A",
-            "Time" => $this->q3 ?? $this->q1 ?? "N/A",
+            'name' => $this->fullname ?? "N/A",
+            'nationality' => $this->nationality ?? "N/A",
+            'team' => $this->constructors ?? "N/A",
+            'time' => $this->q3 ?? $this->q1 ?? "N/A",
         ];
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Resources\Circuits;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class AllCircuitsResource extends JsonResource
 {
@@ -15,10 +16,11 @@ class AllCircuitsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "Name" => $this->name,
-            "Location" => $this->location,
-            "Country" => $this->country,
-            "Wikipedia link" => $this->url
+            'name' => $this->name,
+            'location' => $this->location,
+            'country' => $this->country,
+            'wikipedia_link' => $this->url,
+            'slug' => Str::slug($this->circuitRef)
         ];
     }
 }

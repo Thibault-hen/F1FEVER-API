@@ -15,11 +15,11 @@ class DriverResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Driver Information' => new DriverInformationResource($this->resource['basicData']),
-            'Race Stats' => new DriverRaceStatsResource($this->resource['raceStats']),
-            'First Race Entered' => DriverFirstRaceResource::collection($this->resource['firstRaceEntered']),
-            'Last Race Entered' => DriverLastRaceResource::collection($this->resource['lastRaceEntered']),
-            'Total active seasons' => new DriverActiveSeasonsResource($this->resource['totalSeasons']),
+            'driver_info' => new DriverInformationResource($this->resource['basicData']),
+            'race_stats' => new DriverRaceStatsResource($this->resource['raceStats']),
+            'first_race_entered' => DriverFirstRaceResource::collection($this->resource['firstRaceEntered']),
+            'last_race_entered' => DriverLastRaceResource::collection($this->resource['lastRaceEntered']),
+            'total_active_seasons' => new DriverActiveSeasonsResource($this->resource['totalSeasons']),
         ];
     }
 }

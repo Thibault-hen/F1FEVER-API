@@ -15,10 +15,10 @@ class ConstructorInformationResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'Team' => $this['constructor']->name,
-            'Nationality' => $this['constructor']->nationality,
-            'Wikipedia link' => $this['constructor']->url,
-            'Wikipedia img' => $this['wikiImg']
+            'team' => $this['constructor']->name,
+            'nationality' => $this['constructor']->nationality,
+            'wikipedia_link' => $this['constructor']->url,
+            'wikipedia_img' => $this['wikiImg']
         ];
     }
 }

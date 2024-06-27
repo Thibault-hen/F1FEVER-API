@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\API\GrandPrix;
 
 use App\Http\Resources\GrandPrix\GrandPrixResource;
-use App\Http\Resources\MimifiedGrandPrix\MimifiedGrandPrixResource;
+use App\Http\Resources\GrandPrixPreview\GrandPrixPreviewResource;
 use App\Http\Controllers\Controller;
 use App\Repositories\GrandPrix\GrandPrixRepository;
 use App\Repositories\RaceSchedule\RaceScheduleRepository;
@@ -33,11 +33,11 @@ class GrandPrixController extends Controller
     public function getGrandPrix(Request $request): JsonResponse
     {
         //Perform season and grand prix name validation
-        $season = $request->route("season");
-        $name = $request->route("name");
+        $season = $request->route('season');
+        $name = $request->route('name');
 
         //Get latest grand prix name if the request is for the lastest grand prix
-        if ($request->is("api/grand-prix/latest")) {
+        if ($request->is('api/grand-prix/latest')) {
             $season = $this->currentYear;
             $name = $this->raceScheduleRepository->getLastGpName();
         }
@@ -50,15 +50,15 @@ class GrandPrixController extends Controller
         $grandPrixResults = $this->grandprixRepository->getGrandPrixData($this->gpService->getGpName(), $season);
 
         //Return the grand prix data
-        return response()->json(['Data' => $grandPrixResults], 200);
+        return response()->json(['data' => $grandPrixResults], 200);
     }
-    public function getMimifiedGrandPrix(): JsonResponse
+    public function getGrandPrixPreview(): JsonResponse
     {
         $gpName = $this->raceScheduleRepository->getLastGpName();
         //Fetch grand prix data
-        $grandPrixResults = $this->grandprixRepository->getMimifiedGrandPrixData($gpName, $this->currentYear);
+        $grandPrixResults = $this->grandprixRepository->getGrandPrixPreviewData($gpName, $this->currentYear);
 
         //Return the grand prix data
-        return response()->json(['Data' => $grandPrixResults], 200);
+        return response()->json(['data' => $grandPrixResults], 200);
     }
 }

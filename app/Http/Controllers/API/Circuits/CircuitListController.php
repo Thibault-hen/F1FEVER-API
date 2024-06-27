@@ -19,15 +19,15 @@ class CircuitListController extends Controller
     }
     public function getAllCircuits(): JsonResponse
     {
-        return response()->json(["data" => $this->circuitsListRepository->getAllCircuits()], 200);
+        return response()->json(['data' => $this->circuitsListRepository->getAllCircuits()], 200);
     }
 
     public function getAllCircuitsBySeason(Request $request): JsonResponse
     {
-        $season = $request->route("season");
+        $season = $request->route('season');
 
         $this->seasonService->validateSeasonRange($season);
 
-        return response()->json(["Data" => $this->circuitsListRepository->getAllCircuitsBySeason($season)], 200);
+        return response()->json(['data' => $this->circuitsListRepository->getAllCircuitsBySeason($season)], 200);
     }
 }
