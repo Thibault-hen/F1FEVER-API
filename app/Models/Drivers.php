@@ -21,4 +21,14 @@ class Drivers extends Model
         "url"
     ];
     public $timestamps = false;
+
+    public function results()
+    {
+        return $this->hasMany(Results::class, 'driverId', 'driverId');
+    }
+
+    public function qualifying()
+    {
+        return $this->hasMany(Qualifying::class, 'driverId', 'driverId');
+    }
 }

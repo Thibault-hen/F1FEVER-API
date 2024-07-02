@@ -30,4 +30,17 @@ class Results extends Model
         "statusId"
     ];
     public $timestamps = false;
+
+    public function races()
+    {
+        return $this->belongsTo(Races::class, 'raceId', 'raceId');
+    }
+    public function drivers()
+    {
+        return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
+    }
+    public function qualifying()
+    {
+        return $this->hasMany(Qualifying::class, 'raceId', 'raceId');
+    }
 }

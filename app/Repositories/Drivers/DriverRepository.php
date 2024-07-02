@@ -130,13 +130,13 @@ class DriverRepository
     }
     public function setActiveSeasons() : void
     {
-        $totalSeaons = Results::select('races.year')
+        $totalSeasons = Results::select('races.year')
             ->where('results.driverId', $this->driverId)
             ->join('races', 'results.raceId', '=', 'races.raceId')
             ->groupBy('races.year')
             ->get();
 
-        $this->driverTotalSeasons = collect($totalSeaons);
+        $this->driverTotalSeasons = collect($totalSeasons);
     }
     public function getDriverData(string $name): DriverResource
     {

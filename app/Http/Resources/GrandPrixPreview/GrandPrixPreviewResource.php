@@ -17,8 +17,8 @@ class GrandPrixPreviewResource extends JsonResource
     {
         return [
             'grand_prix_name' => new RaceNameResource($this->resource['raceName']),
-            'race_result' => RaceResultResource::collection($this->resource["raceResult"]),
-            'circuit' => new CircuitResource($this->resource["circuit"])
+            'race_result' => RaceResultResource::collection($this->resource['raceResult']),
+            'circuit' => new CircuitResource($this->resource['circuit'])
         ];
     }
 }

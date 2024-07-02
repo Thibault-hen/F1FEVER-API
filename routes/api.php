@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\API\Analysis\AnalysisController;
 use App\Http\Controllers\API\Circuits\CircuitController;
 use App\Http\Controllers\API\Drivers\DriverController;
 use App\Http\Controllers\API\Drivers\DriverListController;
 use App\Http\Controllers\API\GrandPrix\GrandPrixController;
+use App\Http\Controllers\API\LapTimes\LapTimesController;
+use App\Http\Controllers\API\RaceReport\RaceReportController;
 use App\Http\Controllers\API\Standings\StandingsController;
 use App\Http\Controllers\API\Constructors\ConstructorListController;
 use App\Http\Controllers\API\Constructors\ConstructorController;
@@ -80,4 +83,21 @@ Route::prefix("/grand-prix-list")->group(function () {
     Route::get("/current", [GrandPrixListController::class, "getCurrentSeasonRounds"])->name("grand-prix-list.current");
     Route::get("/season/{season}", [GrandPrixListController::class, "getRoundsBySeason"])->name("grand-prix-list.by_season");
     Route::get("/name/{name}", [GrandPrixListController::class, "getRoundsByName"])->name("grand-prix-list.by_name");
+});
+
+//Laps times routes
+Route::prefix("/lap-times")->controller(LapTimesController::class)->group(function () {
+    Route::get("/{season}/{grandprix}/{driver}", "getLapTimes")->name("lap-times.driver");
+});
+
+//Race report routes
+Route::prefix("/race-report")->controller(RaceReportController::class)->group(function () {
+    Route::get("/{season}/{grandprix}/{driver}", "getRaceReport")->name("race-report.driver");
+});
+
+//Race report / lap times routes
+Route::prefix("/analysis")->controller(AnalysisController::class)->group(function () {
+    Route::get("/seasons", "getSeasons")->name("analysis.seasons");
+    Route::get("/grand-prix/{season}", "getGrandPrix")->name("analysis.grand_prix");
+    Route::get("/drivers/{season}/{grandprix}", "getDrivers")->name("analysis.drivers");
 });

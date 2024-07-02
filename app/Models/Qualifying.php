@@ -21,4 +21,21 @@ class Qualifying extends Model
         "q3"
     ];
     public $timestamps = false;
+
+    public function races()
+    {
+        return $this->belongsTo(Races::class, 'raceId', 'raceId');
+    }
+
+    public function drivers()
+    {
+        return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
+    }
+
+    public function result()
+    {
+        return $this->belongsTo(Results::class, 'raceId', 'raceId')
+                        ->where('results.driverId', 'driverId');
+        
+    }
 }

@@ -30,4 +30,9 @@ class Races extends Model
         "sprint_time"
     ];
     public $timestamps = false;
+
+    public function laptimes()
+    {
+        return $this->hasMany(Laptimes::class, 'raceId');
+    }
 }
