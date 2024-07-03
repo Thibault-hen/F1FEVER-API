@@ -52,6 +52,7 @@ class RaceReportRepository
         if(!$raceResult){
             throw new InvalidRaceReportException('This driver has not participated in this Grand Prix or the data are not available for this season');
         }
+        
         $raceResult = [
             'race_name' => $raceResult->races,
             'race_results' => [

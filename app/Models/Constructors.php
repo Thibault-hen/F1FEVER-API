@@ -17,4 +17,9 @@ class Constructors extends Model
         "url"
     ];
     public $timestamps = false;
+
+    public function results()
+    {
+        return $this->hasMany(Results::class, 'constructorId', 'constructorId');
+    }
 }

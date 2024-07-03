@@ -35,12 +35,25 @@ class Results extends Model
     {
         return $this->belongsTo(Races::class, 'raceId', 'raceId');
     }
+
     public function drivers()
     {
         return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
     }
+
+    public function constructors()
+    {
+        return $this->belongsTo(Constructors::class, 'constructorId', 'constructorId');
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'statusId', 'statusId');
+    }
+    
     public function qualifying()
     {
-        return $this->hasMany(Qualifying::class, 'raceId', 'raceId');
+        return $this->hasOne(Qualifying::class, 'raceId', 'raceId')
+                    ->whereColumn('qualifying.driverId', 'driverId');
     }
 }

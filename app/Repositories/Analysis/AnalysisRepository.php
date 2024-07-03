@@ -25,7 +25,7 @@ class AnalysisRepository
     /**
      * Get the list of grand prix for a specific season.
      *
-     * @param int $season The season year.
+     * @param int $season.
      */
     public function getGrandPrixList(int $season): AnonymousResourceCollection
     {
@@ -37,8 +37,8 @@ class AnalysisRepository
     /**
      * Get the list of drivers for a specific season and grand prix.
      *
-     * @param int $season The season year.
-     * @param string $gpName The name of the grand prix.
+     * @param int $season.
+     * @param string $gpName .
      */
     public function getDriversList(int $season, string $gpName): AnonymousResourceCollection
     {

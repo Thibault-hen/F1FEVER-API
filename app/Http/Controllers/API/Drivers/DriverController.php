@@ -9,12 +9,10 @@ use App\Services\DriverService;
 
 class DriverController extends Controller
 {
-    protected $driverRepository;
-    protected $driverService;
-    public function __construct(DriverRepository $driverRepository, DriverService $driverService)
-    {
-        $this->driverRepository = $driverRepository;
-        $this->driverService = $driverService;
+    public function __construct(
+        protected DriverRepository $driverRepository,
+        protected DriverService $driverService
+    ) {
     }
 
     public function getDriver(Request $request)

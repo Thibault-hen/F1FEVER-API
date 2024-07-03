@@ -35,4 +35,19 @@ class Races extends Model
     {
         return $this->hasMany(Laptimes::class, 'raceId');
     }
+
+    public function driverStandings()
+    {
+        return $this->hasMany(DriverStandings::class, 'raceId', 'raceId');
+    }
+
+    public function qualifying()
+    {
+        return $this->hasMany(Qualifying::class, 'raceId');
+    }
+
+    public function results()
+    {
+        return $this->hasMany(Results::class, 'raceId', 'raceId');
+    }
 }

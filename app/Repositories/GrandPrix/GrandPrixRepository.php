@@ -5,13 +5,12 @@ namespace App\Repositories\GrandPrix;
 use App\Exceptions\InvalidGrandPrixException;
 use App\Http\Resources\GrandPrix\GrandPrixResource;
 use App\Http\Resources\GrandPrixPreview\GrandPrixPreviewResource;
-use Illuminate\Support\Facades\DB;
+use App\Models\Results;
 use Illuminate\Support\Collection;
 use App\Models\Races;
 
 class GrandPrixRepository
 {
-
     protected Collection $raceResult;
     protected Collection $qualiResult;
     protected $raceName;
@@ -19,12 +18,19 @@ class GrandPrixRepository
     protected $poleMan = [];
     protected $circuit;
     protected int $raceId;
+
+    /**
+     * Get detailed Grand Prix data.
+     *
+     * @param string $name
+     * @param int $season
+     * @return GrandPrixResource
+     * @throws InvalidGrandPrixException
+     */
     public function getGrandPrixData(string $name, int $season): GrandPrixResource
     {
-        //Initializing the correct grand prix by searching for his raceId with his name and season
         $this->setRaceId($name, $season);
 
-        //Collecting various data about the grand prix using the raceId
         $this->setRaceName();
         $this->setRaceResult();
         $this->setQualiResult();
@@ -43,6 +49,13 @@ class GrandPrixRepository
         ]);
     }
 
+    /**
+     * Get a preview Grand Prix Data
+     * 
+     * @param string $name
+     * @param int $season
+     * @return GrandPrixPreviewResource
+     */
     public function getGrandPrixPreviewData(string $name, int $season): GrandPrixPreviewResource
     {
         $this->setRaceId($name, $season);
@@ -56,7 +69,14 @@ class GrandPrixRepository
             'circuit' => $this->circuit
         ]);
     }
-
+    /**
+     * Set the correct raceId based on the name and season
+     * 
+     * @param string $name
+     * @param int $season
+     * @return void
+     * @throws InvalidGrandPrixException
+     */
     private function setRaceId(string $name, int $season): void
     {
         $raceId = Races::where("name", $name)
@@ -70,106 +90,118 @@ class GrandPrixRepository
         $this->raceId = $raceId;
     }
 
+    /**
+     * Set the race name from the current race
+     * 
+     * @return void
+     */
     private function setRaceName(): void
     {
         $this->raceName = Races::where('raceId', $this->raceId)
             ->first();
     }
+
+    /**
+     * Set race results data for the current race.
+     *
+     * @return void
+     */
     private function setRaceResult(): void
     {
-        $raceResult = DB::table('results')
-            ->select(
-                'results.grid',
-                'results.laps',
-                'results.time',
-                'results.positionOrder',
-                DB::raw("CONCAT(drivers.forename, ' ',  drivers.surname) as fullname"),
-                'constructors.name as constructors',
-                'drivers.nationality',
-                'status.status',
-                'races.year'
-            )
-            ->join('drivers', 'results.driverId', '=', 'drivers.driverId')
-            ->join('constructors', 'results.constructorId', '=', 'constructors.constructorId')
-            ->join('status', 'results.statusId', '=', 'status.statusId')
-            ->join('races', 'results.raceId', '=', 'races.raceId')
-            ->where('results.raceId', $this->raceId)
-            ->groupBy(
-                'results.grid',
-                'results.laps',
-                'results.time',
-                'results.positionOrder',
-                'fullname',
-                'constructors',
-                'drivers.nationality',
-                'status.status',
-                'races.year'
-            )
-            ->orderBy('results.positionOrder')
+        $raceResults = Results::with(['drivers', 'constructors', 'status', 'races'])
+            ->where('raceId', $this->raceId)
+            ->orderBy('positionOrder')
             ->get();
 
-        $this->raceResult = $raceResult;
+        $raceResultsFormatted = $raceResults->map(function ($result) {
+            return [
+                'grid' => $result->grid,
+                'laps' => $result->laps,
+                'time' => $result->time,
+                'positionOrder' => $result->positionOrder,
+                'forename' => $result->drivers->forename,
+                'surname' => $result->drivers->surname,
+                'constructors' => $result->constructors->name,
+                'nationality' => $result->drivers->nationality,
+                'status' => $result->status->status,
+                'year' => $result->races->year,
+            ];
+        });
+
+        $this->raceResult = $raceResultsFormatted;
     }
+
+    /**
+     * Set qualifying results data for the current race.
+     *
+     * @return void
+     */
     private function setQualiResult(): void
     {
         $raceId = $this->raceId;
-        $qualiResult = DB::table('results')
-            ->select(
-                DB::raw("CONCAT(drivers.forename, ' ', drivers.surname) as fullname"),
-                'drivers.number',
-                'drivers.nationality',
-                'constructors.name as constructors',
-                'qualifying.position',
-                'qualifying.q1',
-                'qualifying.q2',
-                'qualifying.q3'
-            )
-            ->join('drivers', 'results.driverId', '=', 'drivers.driverId')
-            ->join('constructors', 'results.constructorId', '=', 'constructors.constructorId')
-            ->join('qualifying', function ($join) use ($raceId) {
-                $join->on('results.raceId', '=', 'qualifying.raceId')
-                    ->on('results.driverId', '=', 'qualifying.driverId');
-            })
-            ->join('races', 'results.raceId', '=', 'races.raceId')
-            ->where('results.raceId', $raceId)
-            ->groupBy(
-                'fullname',
-                'drivers.number',
-                'drivers.nationality',
-                'constructors.name',
-                'qualifying.position',
-                'qualifying.q1',
-                'qualifying.q2',
-                'qualifying.q3'
-            )
-            ->orderBy('qualifying.position')
+        $qualiResult = Results::with(['drivers', 'constructors', 'races', 'qualifying'])
+            ->where('raceId', $raceId)
             ->get();
 
-        $this->qualiResult = $qualiResult;
+
+        $qualiResultsFormatted = $qualiResult->map(function ($result) {
+            return [
+                'forename' => $result->drivers->forename,
+                'surname' => $result->drivers->surname,
+                'nationality' => $result->drivers->nationality,
+                'team' => $result->constructors->name,
+                'q1' => $result->qualifying->q1,
+                'q2' => $result->qualifying->q2,
+                'q3' => $result->qualifying->q3,
+                'position' => $result->qualifying->position,
+            ];
+        });
+
+        $this->qualiResult = $qualiResultsFormatted;
     }
+
+    /**
+     * Set race winner data for the current race
+     *
+     * @return void
+     */
     private function setRaceWinner(): void
     {
         $this->raceWinner = collect($this->raceResult)
-            ->filter(fn ($result) => !is_null($result->time))
+            ->filter(fn($result) => !is_null($result['time']))
             ->sortBy("positionOrder")
             ->first();
     }
 
+    /**
+     * Set the correct poleman data between q1 and q3 times for the current race
+     *
+     * @return void
+     */
     private function setPoleman(): void
     {
-        $this->poleMan = collect($this->qualiResult)
-            ->filter(fn ($result) => !is_null($result->q3))
+        $polemanWithQ3 = collect($this->qualiResult)
+            ->filter(fn($result) => !is_null($result['q3']))
             ->sortBy("q3")
             ->first();
 
-        if (is_null($this->poleMan)) {
-            $this->poleMan = collect($this->qualiResult)
-                ->filter(fn ($result) => !is_null($result->q1))
+        if (is_null($polemanWithQ3)) {
+            $polemanWithQ1 = collect($this->qualiResult)
+                ->filter(fn($result) => !is_null($result['q1']))
                 ->sortBy("q1")
                 ->first();
+
+            $this->poleMan = $polemanWithQ1;
+        } else {
+            $this->poleMan = $polemanWithQ3;
         }
     }
 
+    /**
+     * Set the circuit data for the current race
+     *
+     * @return void
+     */
     private function setCircuit(): void
     {
         $this->circuit = Races::join("Circuits", "races.circuitId", "=", "circuits.circuitId")

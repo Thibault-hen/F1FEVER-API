@@ -15,10 +15,10 @@ class RaceWinnerResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->fullname,
-            'nationality' => $this->nationality,
-            'team' => $this->constructors,
-            'time' => $this->time
+            'name' => $this['forename'] . ' ' . $this['surname'],
+            'nationality' => $this['nationality'],
+            'team' => $this['constructors'],
+            'time' => $this['time']
         ];
     }
 }

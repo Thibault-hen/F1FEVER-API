@@ -9,12 +9,10 @@ use Illuminate\Http\Request;
 
 class ConstructorController extends Controller
 {
-    protected $constructorRepository;
-    protected $constructorService;
-    public function __construct(ConstructorRepository $constructorRepository, ConstructorService $constructorService)
-    {
-        $this->constructorRepository = $constructorRepository;
-        $this->constructorService = $constructorService;
+    public function __construct(
+        protected ConstructorRepository $constructorRepository,
+        protected ConstructorService $constructorService
+    ) {
     }
     public function getConstructor(Request $request)
     {

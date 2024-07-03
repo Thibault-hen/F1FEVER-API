@@ -8,10 +8,9 @@ use Illuminate\Http\JsonResponse;
 
 class NextGrandPrixController extends Controller
 {
-    private $raceScheduleRepository;
-    public function __construct(RaceScheduleRepository $raceScheduleRepository)
-    {
-        $this->raceScheduleRepository = $raceScheduleRepository;
+    public function __construct(
+        protected RaceScheduleRepository $raceScheduleRepository
+    ) {
     }
     public function getNextGrandPrix(): JsonResponse
     {

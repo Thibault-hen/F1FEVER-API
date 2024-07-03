@@ -11,14 +11,10 @@ use Illuminate\Http\Request;
 
 class StandingsController extends Controller
 {
-    protected $seasonService;
-    protected $errors;
-    private $standingsRepository;
-
-    public function __construct(SeasonService $seasonService, StandingsRepository $standingsRepository)
-    {
-        $this->seasonService = $seasonService;
-        $this->standingsRepository = $standingsRepository;
+    public function __construct(
+        protected SeasonService $seasonService,
+        protected StandingsRepository $standingsRepository
+    ) {
     }
 
     private function getStandings($season, $type): JsonResponse

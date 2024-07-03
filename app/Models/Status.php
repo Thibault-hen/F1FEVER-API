@@ -14,4 +14,9 @@ class Status extends Model
         "status"
     ];
     public $timestamps = false;
+
+    public function results()
+    {
+        return $this->hasMany(Results::class, 'statusId', 'statusId');
+    }
 }

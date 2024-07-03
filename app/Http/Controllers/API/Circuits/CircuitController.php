@@ -9,12 +9,10 @@ use Illuminate\Http\Request;
 
 class CircuitController extends Controller
 {
-    protected $circuitRepository;
-    protected $circuitService;
-    public function __construct(CircuitRepository $circuitRepository, CircuitService $circuitService)
-    {
-        $this->circuitRepository = $circuitRepository;
-        $this->circuitService = $circuitService;
+    public function __construct(
+        protected CircuitRepository $circuitRepository,
+        protected CircuitService $circuitService
+    ) {
     }
 
     public function getCircuit(Request $request)

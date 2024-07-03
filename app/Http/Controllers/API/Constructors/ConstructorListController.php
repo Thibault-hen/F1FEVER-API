@@ -10,16 +10,14 @@ use Illuminate\Http\JsonResponse;
 
 class ConstructorListController extends Controller
 {
-    protected $seasonService;
-    private $constructorListRepository;
-    public function __construct(ConstructorListRepository $constructorsListRepository, SeasonService $seasonService)
-    {
-        $this->constructorListRepository = $constructorsListRepository;
-        $this->seasonService = $seasonService;
+    public function __construct(
+        protected ConstructorListRepository $constructorsListRepository,
+        protected SeasonService $seasonService
+    ) {
     }
     public function getAllConstructors(): JsonResponse
     {
-        return response()->json(['data' => $this->constructorListRepository->getAllConstructors()], 200);
+        return response()->json(['data' => $this->constructorsListRepository->getAllConstructors()], 200);
     }
 
     public function getAllConstructorsBySeason(Request $request): JsonResponse
@@ -29,6 +27,6 @@ class ConstructorListController extends Controller
 
         $this->seasonService->validateSeasonRange($season);
 
-        return response()->json(['data' => $this->constructorListRepository->getAllConstructorsBySeason($season)], 200);
+        return response()->json(['data' => $this->constructorsListRepository->getAllConstructorsBySeason($season)], 200);
     }
 }

@@ -66,7 +66,6 @@ Route::prefix("/drivers")->controller(DriverListController::class)->group(functi
     Route::get("/{season}", "getAllDriversBySeason")->name("alldrivers.by_season");
 });
 
-
 //Constructors list routes
 Route::prefix("/constructors")->controller(ConstructorListController::class)->group(function () {
     Route::get("/", "getAllConstructors")->name("constructors.all");

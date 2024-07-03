@@ -10,16 +10,14 @@ use Illuminate\Http\JsonResponse;
 
 class CircuitListController extends Controller
 {
-    protected $seasonService;
-    private $circuitsListRepository;
-    public function __construct(CircuitListRepository $circuitListRepository, SeasonService $seasonService)
-    {
-        $this->circuitsListRepository = $circuitListRepository;
-        $this->seasonService = $seasonService;
+    public function __construct(
+        protected CircuitListRepository $circuitListRepository,
+        protected SeasonService $seasonService
+    ) {
     }
     public function getAllCircuits(): JsonResponse
     {
-        return response()->json(['data' => $this->circuitsListRepository->getAllCircuits()], 200);
+        return response()->json(['data' => $this->circuitListRepository->getAllCircuits()], 200);
     }
 
     public function getAllCircuitsBySeason(Request $request): JsonResponse
@@ -28,6 +26,6 @@ class CircuitListController extends Controller
 
         $this->seasonService->validateSeasonRange($season);
 
-        return response()->json(['data' => $this->circuitsListRepository->getAllCircuitsBySeason($season)], 200);
+        return response()->json(['data' => $this->circuitListRepository->getAllCircuitsBySeason($season)], 200);
     }
 }

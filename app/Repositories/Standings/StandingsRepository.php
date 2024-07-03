@@ -6,13 +6,16 @@ use App\Http\Resources\Standings\DriverStandingsResource;
 use App\Http\Resources\Standings\ConstructorStandingsResource;
 use App\Models\Drivers;
 use App\Models\Constructors;
+use App\Models\DriverStandings;
+use App\Models\Races;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class StandingsRepository
 {
-    public function drivers(int $season): ResourceCollection
+    public function drivers(int $season)
     {
+
         return DriverStandingsResource::collection(Drivers::select(
             'drivers.driverId',
             'drivers.code',

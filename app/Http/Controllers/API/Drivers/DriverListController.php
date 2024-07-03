@@ -10,16 +10,14 @@ use Illuminate\Http\JsonResponse;
 
 class DriverListController extends Controller
 {
-    protected $seasonService;
-    private $driverListRepository;
-    public function __construct(DriverListRepository $driversListRepository, SeasonService $seasonService)
-    {
-        $this->driverListRepository = $driversListRepository;
-        $this->seasonService = $seasonService;
+    public function __construct(
+        protected DriverListRepository $driversListRepository,
+        protected SeasonService $seasonService
+    ) {
     }
     public function getAllDrivers(): JsonResponse
     {
-        return response()->json(['data' => $this->driverListRepository->getAllDrivers()], 200);
+        return response()->json(['data' => $this->driversListRepository->getAllDrivers()], 200);
     }
 
     public function getAllDriversBySeason(Request $request): JsonResponse
@@ -28,6 +26,6 @@ class DriverListController extends Controller
 
         $this->seasonService->validateSeasonRange($season);
 
-        return response()->json(['data' => $this->driverListRepository->getAllDriversBySeason($season)], 200);
+        return response()->json(['data' => $this->driversListRepository->getAllDriversBySeason($season)], 200);
     }
 }

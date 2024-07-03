@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Http;
 
 class WikiDataService
 {
-    public string $urlApi = "https://en.wikipedia.org/w/api.php";
-    public string $url = "https://en.wikipedia.org/wiki/";
+    public string $urlApi = 'https://en.wikipedia.org/w/api.php';
+    public string $url = 'https://en.wikipedia.org/wiki/';
     protected string $wikiSummary;
     protected string $wikiImg = '';
     public function setWikiData(string $url)

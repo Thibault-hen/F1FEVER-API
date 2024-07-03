@@ -22,6 +22,11 @@ class Drivers extends Model
     ];
     public $timestamps = false;
 
+    public function driverStandings()
+    {
+        return $this->hasMany(DriverStandings::class, 'driverId', 'driverId');
+    }
+
     public function results()
     {
         return $this->hasMany(Results::class, 'driverId', 'driverId');

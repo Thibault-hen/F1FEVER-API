@@ -11,14 +11,11 @@ use Illuminate\Http\JsonResponse;
 
 class GrandPrixListController extends Controller
 {
-    private $grandPrixListRepository;
-    private $seasonService;
-    private $grandPrixService;
-    public function __construct(GrandPrixListRepository $grandPrixListRepository, SeasonService $seasonService, GrandPrixService $grandPrixService)
-    {
-        $this->grandPrixListRepository = $grandPrixListRepository;
-        $this->seasonService = $seasonService;
-        $this->grandPrixService = $grandPrixService;
+    public function __construct(
+        protected GrandPrixListRepository $grandPrixListRepository,
+        protected SeasonService $seasonService,
+        protected GrandPrixService $grandPrixService
+    ) {
     }
     public function getCurrentSeasonRounds(): JsonResponse
     {
@@ -31,7 +28,7 @@ class GrandPrixListController extends Controller
         return response()->json(['data' => $grandPrixList], 200);
     }
 
-    public function getRoundsBySeason(Request $request) : JsonResponse
+    public function getRoundsBySeason(Request $request): JsonResponse
     {
         $season = $request->route('season');
 
@@ -42,12 +39,12 @@ class GrandPrixListController extends Controller
         return response()->json(['Data' => $grandPrixList], 200);
     }
 
-    public function getRoundsByName(Request $request) : JsonResponse
+    public function getRoundsByName(Request $request): JsonResponse
     {
         $name = $request->route('name');
 
         $this->grandPrixService->validateGpName($name);
-        
+
         $grandPrixList = $this->grandPrixListRepository->getRoundsByName($this->grandPrixService->getGpName());
 
         return response()->json(['data' => $grandPrixList], 200);
