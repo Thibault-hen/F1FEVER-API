@@ -16,6 +16,6 @@ class InvalidGrandPrixException extends Exception
         return response()->json([
             'error' => 'Invalid Grand Prix Name',
             'message' => $this->getMessage()
-        ], 422);
+        ], 404);
     }
 }

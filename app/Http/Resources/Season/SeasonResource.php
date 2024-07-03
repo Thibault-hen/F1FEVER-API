@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Analysis;
+namespace App\Http\Resources\Season;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class AnalysisDriversResource extends JsonResource
+class SeasonResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,9 +14,9 @@ class AnalysisDriversResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [   
-            'name' => $this['forename'] . ' ' . $this['surname'],
-            'slug' => $this['ref']
+        return [
+            'year' => (string) $this->year,
+            'wikipedia_link' => $this->url
         ];
     }
 }

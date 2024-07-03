@@ -7,6 +7,7 @@ use App\Http\Controllers\API\Drivers\DriverListController;
 use App\Http\Controllers\API\GrandPrix\GrandPrixController;
 use App\Http\Controllers\API\LapTimes\LapTimesController;
 use App\Http\Controllers\API\RaceReport\RaceReportController;
+use App\Http\Controllers\API\Seasons\SeasonController;
 use App\Http\Controllers\API\Standings\StandingsController;
 use App\Http\Controllers\API\Constructors\ConstructorListController;
 use App\Http\Controllers\API\Constructors\ConstructorController;
@@ -44,12 +45,6 @@ Route::prefix("/grand-prix")->controller(GrandprixController::class)->group(func
     Route::get("/latest-preview", "getGrandPrixPreview")->name("grand-prix.latest-preview");
 });
 
-//Drivers list routes
-Route::prefix("/drivers")->controller(DriverListController::class)->group(function () {
-    Route::get("/", "getAllDrivers")->name("drivers.all");
-    Route::get("/{season}", "getAllDriversBySeason")->name("alldrivers.by_season");
-});
-
 //Driver routes
 Route::prefix("/driver")->controller(DriverController::class)->group(function () {
     Route::get("/{name}", "getDriver")->name("driver.information");
@@ -65,13 +60,20 @@ Route::prefix("/circuit")->controller(CircuitController::class)->group(function 
     Route::get("/{name}", "getCircuit")->name("circuit.information");
 });
 
+//Drivers list routes
+Route::prefix("/drivers")->controller(DriverListController::class)->group(function () {
+    Route::get("/", "getAllDrivers")->name("drivers.all");
+    Route::get("/{season}", "getAllDriversBySeason")->name("alldrivers.by_season");
+});
+
+
 //Constructors list routes
 Route::prefix("/constructors")->controller(ConstructorListController::class)->group(function () {
     Route::get("/", "getAllConstructors")->name("constructors.all");
     Route::get("/{season}", "getAllConstructorsBySeason")->name("allconstructors.by_season");
 });
 
-//Circuit list routes
+//Circuits list routes
 Route::prefix("/circuits")->controller(CircuitListController::class)->group(function () {
     Route::get("/", "getAllCircuits")->name("circuits.all");
     Route::get("/{season}", "getAllCircuitsBySeason")->name("allcircuits.by_season");
@@ -100,4 +102,9 @@ Route::prefix("/analysis")->controller(AnalysisController::class)->group(functio
     Route::get("/seasons", "getSeasons")->name("analysis.seasons");
     Route::get("/grand-prix/{season}", "getGrandPrix")->name("analysis.grand_prix");
     Route::get("/drivers/{season}/{grandprix}", "getDrivers")->name("analysis.drivers");
+});
+
+//Seasons list routes
+Route::prefix("/seasons")->controller(SeasonController::class)->group(function () {
+    Route::get("/", "getSeasons")->name("seasons.list");
 });

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\API\Analysis;
 
-use App\Http\Controllers\API\RaceReport\RaceReportController;
 use App\Http\Controllers\Controller;
 use App\Repositories\Analysis\AnalysisRepository;
 use App\Services\GrandPrixService;
 use App\Services\RaceReportService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AnalysisController extends Controller
@@ -17,13 +17,13 @@ class AnalysisController extends Controller
         protected RaceReportService $raceReportService
     ) {
     }
-    public function getSeasons(Request $request)
+    public function getSeasons(Request $request) : JsonResponse
     {
         $seasonResult = $this->analysisRepository->getSeasonsList();
 
         return response()->json(['data' => $seasonResult], 200);
     }
-    public function getGrandPrix(Request $request)
+    public function getGrandPrix(Request $request) : JsonResponse
     {
         $season = $request->route('season');
 
@@ -33,7 +33,7 @@ class AnalysisController extends Controller
 
         return response()->json(['data' => $grandPrixResult], 200);
     }
-    public function getDrivers(Request $request)
+    public function getDrivers(Request $request) : JsonResponse
     {
         $season = $request->route('season');
         $gpName = $request->route('grandprix');

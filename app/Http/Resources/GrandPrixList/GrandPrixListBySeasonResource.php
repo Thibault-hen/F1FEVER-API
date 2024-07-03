@@ -4,6 +4,7 @@ namespace App\Http\Resources\GrandPrixList;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class GrandPrixListBySeasonResource extends JsonResource
 {
@@ -19,7 +20,8 @@ class GrandPrixListBySeasonResource extends JsonResource
             'location' => $this->location,
             'country' => $this->country,
             'time' => $this->time,
-            'date' => $this->date
+            'date' => $this->date, 
+            'slug' => Str::slug($this->name)
         ];
     }
 }
