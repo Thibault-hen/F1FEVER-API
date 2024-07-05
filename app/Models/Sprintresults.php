@@ -28,4 +28,9 @@ class Sprintresults extends Model
         "statusId"
     ];
     public $timestamps = false;
+
+    public function driver()
+    {
+        return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
+    }
 }

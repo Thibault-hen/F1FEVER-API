@@ -22,4 +22,9 @@ class Constructors extends Model
     {
         return $this->hasMany(Results::class, 'constructorId', 'constructorId');
     }
+
+    public function sprintResults()
+    {
+        return $this->hasMany(Sprintresults::class, 'constructorId', 'constructorId');
+    }
 }

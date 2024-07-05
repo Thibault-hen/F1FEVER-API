@@ -15,10 +15,11 @@ class RaceResultResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'starting_position' => (string) $this->grid,
-            'name' => $this->fullname,
-            'nationality' => $this->nationality,
-            'time' => $this->time,
+            'name' => $this['forename'] . ' ' . $this['surname'],
+            'nationality' => $this['nationality'],
+            'time' => $this['time'],
+            'starting_position' => (string) $this['grid'],
+            'final_position' => (string) $this['positionOrder']
         ];
     }
 }

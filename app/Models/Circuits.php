@@ -21,4 +21,9 @@ class Circuits extends Model
         "url"
     ];
     public $timestamps = false;
+
+    public function races()
+    {
+        return $this->hasMany(Races::class, 'circuitId', 'circuitId');
+    }
 }

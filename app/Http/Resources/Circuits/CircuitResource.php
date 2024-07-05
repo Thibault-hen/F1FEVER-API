@@ -15,7 +15,7 @@ class CircuitResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'circuit_info' => CircuitInformationResource::collection($this->resource['basicData']),
+            'circuit_info' => new CircuitInformationResource($this->resource['basicData']),
             'race_stats' => new CircuitRaceStatsResource($this->resource['raceStats']),
             'first_race_entered' => new CircuitFirstRaceResource($this->resource['firstRaceEntered']),
             'last_race_entered' => new CircuitLastRaceResource($this->resource['lastRaceEntered']),

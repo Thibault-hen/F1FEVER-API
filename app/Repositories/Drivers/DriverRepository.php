@@ -14,27 +14,28 @@ use Illuminate\Support\Facades\DB;
 class DriverRepository
 {
     protected int $driverId;
-    protected $wikiDataService;
     protected $driverBasicData;
     protected $driverFirstRace = [];
     protected $driverLastRace = [];
     protected $driverWikiImg;
     protected $driverRaceStats;
     protected $driverTotalSeasons;
-    public function __construct(WikiDataService $wikiDataService)
-    {
-        $this->wikiDataService = $wikiDataService;
+    public function __construct(
+        protected WikiDataService $wikiDataService
+    ) {
     }
+
     private function setDriverId(string $name): void
     {
         $this->driverId = Drivers::where('driverRef', $name)
             ->value('driverId');
     }
+
     private function setDriverBasicData(): void
     {
-        $this->driverBasicData = Drivers::where('driverId', $this->driverId)
-            ->get();
+        $this->driverBasicData = Drivers::find($this->driverId);
     }
+
     private function setDriverFirstRace(): void
     {
         //Retrieving the first race year and round value in order to get the proper race name and country
@@ -60,6 +61,7 @@ class DriverRepository
             $this->driverFirstRace = $firstRaceData;
         }
     }
+
     private function setDriverLastRace(): void
     {
         //Retrieving the first race year and round value in order to get the proper race name and country
@@ -85,50 +87,28 @@ class DriverRepository
             $this->driverLastRace = $lastRaceData;
         }
     }
+
     private function setRaceStats(): void
     {
-        $driverId = $this->driverId;
+        $raceStats = Drivers::with('results', 'sprintResults')
+            ->where('driverId', $this->driverId)
+            ->get();
 
-        $totalRaces = Results::where('driverId', $driverId)
-            ->count();
-
-        $totalPodiums = Results::where('driverId', $driverId)
-            ->whereBetween('results.positionText', [1, 3])
-            ->count();
-
-        $totalWins = Results::where('driverId', $driverId)
-            ->where('results.positionText', '1')
-            ->count();
-
-        $totalPoles = Results::where('driverId', $driverId)
-            ->where('results.grid', '1')
-            ->count();
-
-        $totalPoles = Results::where('driverId', $driverId)
-            ->where('results.grid', '1')
-            ->count();
-
-        $totalLaps = Results::where('driverId', $driverId)
-            ->sum('laps');
-
-        // Calculating total points from results and sprintresults
-        $totalRacePoints = Results::where('driverId', $driverId)->sum('points');
-        $totalSprintPoints = Sprintresults::where('driverId', $driverId)->sum('points');
-
-        $totalPoints = $totalRacePoints + $totalSprintPoints;
-
-        $mergedStats = [
-            'totalRaces' => $totalRaces,
-            'totalWins' => $totalWins,
-            'totalPodiums' => $totalPodiums,
-            'totalPoles' => $totalPoles,
-            'totalPoints' => $totalPoints,
-            'totalLaps' => $totalLaps,
-        ];
+        $mergedStats = $raceStats->map(function ($result) {
+            return [
+                'totalRaces' => $result->results->count(),
+                'totalWins' => $result->results->where('positionText', 1)->count(),
+                'totalPodiums' => $result->results->whereBetween('positionText', [1, 3])->count(),
+                'totalPoles' => $result->results->where('grid', 1)->count(),
+                'totalPoints' => $result->results->sum('points') + $result->sprintResults->sum('points'),
+                'totalLaps' => $result->results->sum('laps'),
+            ];
+        });
 
         $this->driverRaceStats = $mergedStats;
     }
-    public function setActiveSeasons() : void
+
+    public function setActiveSeasons(): void
     {
         $totalSeasons = Results::select('races.year')
             ->where('results.driverId', $this->driverId)
@@ -138,6 +118,7 @@ class DriverRepository
 
         $this->driverTotalSeasons = collect($totalSeasons);
     }
+    
     public function getDriverData(string $name): DriverResource
     {
         $this->setDriverId($name);
@@ -153,7 +134,7 @@ class DriverRepository
 
         return new DriverResource([
             'basicData' => [
-                'driver' => $this->driverBasicData->first(),
+                'driver' => $this->driverBasicData,
                 'wikiImg' => $this->driverWikiImg,
             ],
             'raceStats' => $this->driverRaceStats,

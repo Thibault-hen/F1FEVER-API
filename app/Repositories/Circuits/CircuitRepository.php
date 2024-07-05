@@ -20,12 +20,12 @@ class CircuitRepository
             ->value('circuitId');
     }
 
-    private function setCircuitBasicData() : void
+    private function setCircuitBasicData(): void
     {
-        $this->circuitBasicData = Circuits::where('circuitId', $this->circuitId)
-            ->get();
+        $this->circuitBasicData = Circuits::find($this->circuitId);
     }
-    private function setCircuitRaceStats() : void
+
+    private function setCircuitRaceStats(): void
     {
         $totalRaces = Races::where('circuitId', $this->circuitId)
             ->count();
@@ -35,25 +35,25 @@ class CircuitRepository
         ];
     }
 
-    private function setCircuitFirstRace() : void
+    private function setCircuitFirstRace(): void
     {
         $this->circuitFirstRace = Races::where('races.circuitId', $this->circuitId)
-            ->join('circuits', 'races.circuitId', 'circuits.circuitId')
-            ->orderByDesc('races.year')
-            ->select('races.name as gp_name', 'races.*', 'circuits.*')
-            ->first();
-    }
-
-    private function setCircuitLastRace() : void
-    {
-        $this->circuitLastRace = Races::where('races.circuitId', $this->circuitId)
             ->join('circuits', 'races.circuitId', 'circuits.circuitId')
             ->orderBy('year', 'asc')
             ->select('races.name as gp_name', 'races.*', 'circuits.*')
             ->first();
     }
 
-    private function setCircuitRacesList() : void
+    private function setCircuitLastRace(): void
+    {
+        $this->circuitLastRace = Races::where('races.circuitId', $this->circuitId)
+            ->join('circuits', 'races.circuitId', 'circuits.circuitId')
+            ->orderByDesc('year')
+            ->select('races.name as gp_name', 'races.*', 'circuits.*')
+            ->first();
+    }
+
+    private function setCircuitRacesList(): void
     {
         $this->circuitRacesList = Races::join('circuits', 'races.circuitId', 'circuits.circuitId')
             ->where('races.circuitId', $this->circuitId)
@@ -62,7 +62,7 @@ class CircuitRepository
             ->get();
     }
 
-    public function getCircuitData(string $name) : CircuitResource
+    public function getCircuitData(string $name): CircuitResource
     {
         $this->setCircuitId($name);
 

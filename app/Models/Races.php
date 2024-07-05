@@ -50,4 +50,9 @@ class Races extends Model
     {
         return $this->hasMany(Results::class, 'raceId', 'raceId');
     }
+
+    public function circuits()
+    {
+        return $this->belongsTo(Circuits::class, 'circuitId', 'circuidId');
+    }
 }

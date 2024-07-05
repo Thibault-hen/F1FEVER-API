@@ -14,7 +14,6 @@ use App\Services\WikiDataService;
 class ConstructorRepository
 {
     protected $constructorId;
-    protected $wikiDataService;
     protected $constructorBasicData;
     protected $constructorFirstRace = [];
     protected $constructorLastRace = [];
@@ -22,9 +21,9 @@ class ConstructorRepository
     protected $constructorRaceStats;
     protected $constructorTotalSeasons;
 
-    public function __construct(WikiDataService $wikiDataService)
-    {
-        $this->wikiDataService = $wikiDataService;
+    public function __construct(
+        protected WikiDataService $wikiDataService
+    ) {
     }
     private function setConstructorId(string $name): void
     {
@@ -33,10 +32,9 @@ class ConstructorRepository
     }
     private function setConstructorBasicData()
     {
-        $this->constructorBasicData = Constructors::where('constructorId', $this->constructorId)
-            ->get();
+        $this->constructorBasicData = Constructors::find($this->constructorId);
     }
-    private function setConstructorFirstRace() : void
+    private function setConstructorFirstRace(): void
     {
         //Retrieving the first race year and round value in order to get the proper race name and country
         $firstRaceDate = Results::select(
@@ -88,49 +86,24 @@ class ConstructorRepository
     }
     private function setRaceStats(): void
     {
-        $constructorId = $this->constructorId;
+        $raceStats = Constructors::with('results', 'sprintResults')
+            ->where('constructorId', $this->constructorId)
+            ->get();
 
-        $totalRaces = Results::where('constructorId', $constructorId)
-            ->distinct('raceId')
-            ->count();
-
-        $totalPodiums = Results::where('constructorId', $constructorId)
-            ->whereBetween('results.positionText', [1, 3])
-            ->count();
-
-        $totalWins = Results::where('constructorId', $constructorId)
-            ->where('results.positionText', '1')
-            ->count();
-
-        $totalPoles = Results::where('constructorId', $constructorId)
-            ->where('results.grid', '1')
-            ->count();
-
-        $totalPoles = Results::where('constructorId', $constructorId)
-            ->where('results.grid', '1')
-            ->count();
-
-        $totalLaps = Results::where('constructorId', $constructorId)
-            ->sum('laps');
-
-        // Calculating total points from results and sprintresults
-        $totalRacePoints = Results::where('constructorId', $constructorId)->sum('points');
-        $totalSprintPoints = Sprintresults::where('constructorId', $constructorId)->sum('points');
-
-        $totalPoints = $totalRacePoints + $totalSprintPoints;
-
-        $mergedStats = [
-            'totalRaces' => $totalRaces,
-            'totalWins' => $totalWins,
-            'totalPodiums' => $totalPodiums,
-            'totalPoles' => $totalPoles,
-            'totalPoints' => $totalPoints,
-            'totalLaps' => $totalLaps,
-        ];
+        $mergedStats = $raceStats->map(function ($result) {
+            return [
+                'totalRaces' => $result->results->unique('raceId')->count(),
+                'totalPodiums' => $result->results->whereBetween('positionText', [1, 3])->count(),
+                'totalWins' => $result->results->where('positionText', 1)->count(),
+                'totalPoles' => $result->results->where('grid', 1)->count(),
+                'totalPoints' => $result->results->sum('points') + $result->sprintResults->sum('points'),
+                'totalLaps' => $result->results->sum('laps')
+            ];
+        });
 
         $this->constructorRaceStats = $mergedStats;
     }
-    public function setActiveSeasons() : void
+    public function setActiveSeasons(): void
     {
         $totalSeaons = Results::select('races.year')
             ->where('results.constructorId', $this->constructorId)
@@ -155,7 +128,7 @@ class ConstructorRepository
 
         return new ConstructorResource([
             'basicData' => [
-                'constructor' => $this->constructorBasicData->first(),
+                'constructor' => $this->constructorBasicData,
                 'wikiImg' => $this->constructorWikiImg,
             ],
             'raceStats' => $this->constructorRaceStats,

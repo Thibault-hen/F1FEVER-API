@@ -19,7 +19,8 @@ class DriverRaceStatsResource extends JsonResource
             'total_podiums' => (string) $this['totalPodiums'],
             'total_wins' => (string) $this['totalWins'],
             'total_points' => (string) $this['totalPoints'],
-            'total_poles' => (string) $this['totalPoles']
+            'total_poles' => (string) $this['totalPoles'],
+            'total_laps' => (string) $this['totalLaps'],
         ];
     }
 }

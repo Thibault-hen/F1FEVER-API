@@ -16,7 +16,7 @@ class GrandPrixPreviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'grand_prix_name' => new RaceNameResource($this->resource['raceName']),
+            'grand_prix_info' => new RaceNameResource($this->resource['raceName']),
             'race_result' => RaceResultResource::collection($this->resource['raceResult']),
             'circuit' => new CircuitResource($this->resource['circuit'])
         ];

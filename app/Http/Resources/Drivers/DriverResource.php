@@ -16,7 +16,7 @@ class DriverResource extends JsonResource
     {
         return [
             'driver_info' => new DriverInformationResource($this->resource['basicData']),
-            'race_stats' => new DriverRaceStatsResource($this->resource['raceStats']),
+            'race_stats' => DriverRaceStatsResource::collection($this->resource['raceStats']),
             'first_race_entered' => DriverFirstRaceResource::collection($this->resource['firstRaceEntered']),
             'last_race_entered' => DriverLastRaceResource::collection($this->resource['lastRaceEntered']),
             'total_active_seasons' => new DriverActiveSeasonsResource($this->resource['totalSeasons']),

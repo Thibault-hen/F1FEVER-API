@@ -16,7 +16,7 @@ class AllDriversBySeasonResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->fullname,
+            'name' => $this->forename . ' ' . $this->surname,
             'nationality' => $this->nationality,
             'date_of_birth' => $this->dob,
             'wikipedia_link' => $this->url,

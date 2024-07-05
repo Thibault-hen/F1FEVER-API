@@ -16,15 +16,7 @@ class DriverListRepository
     }
     public function getAllDriversBySeason(int $season): ResourceCollection
     {
-        $drivers = Drivers::select(
-            'drivers.driverId',
-            'drivers.number',
-            DB::raw("CONCAT(drivers.forename, ' ', drivers.surname) AS fullname"),
-            'drivers.dob',
-            'drivers.nationality',
-            'drivers.url',
-            'drivers.driverRef'
-        )
+        $drivers = Drivers::select('drivers.*')
             ->distinct()
             ->join("driverstandings", "drivers.driverId", "driverstandings.driverId")
             ->join("races", "driverstandings.raceId", "races.raceId")

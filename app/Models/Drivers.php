@@ -32,6 +32,11 @@ class Drivers extends Model
         return $this->hasMany(Results::class, 'driverId', 'driverId');
     }
 
+    public function sprintResults()
+    {
+        return $this->hasMany(Sprintresults::class, 'driverId', 'driverId');
+    }
+    
     public function qualifying()
     {
         return $this->hasMany(Qualifying::class, 'driverId', 'driverId');

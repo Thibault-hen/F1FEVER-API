@@ -51,6 +51,11 @@ class Results extends Model
         return $this->belongsTo(Status::class, 'statusId', 'statusId');
     }
     
+    public function sprintResults()
+    {
+        return $this->hasOne(Sprintresults::class, 'driverId', 'driverId');
+    }
+    
     public function qualifying()
     {
         return $this->hasOne(Qualifying::class, 'raceId', 'raceId')
