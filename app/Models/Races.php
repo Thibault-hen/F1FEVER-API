@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Races extends Model
 {
@@ -31,27 +33,27 @@ class Races extends Model
     ];
     public $timestamps = false;
 
-    public function laptimes()
+    public function laptimes(): HasMany
     {
         return $this->hasMany(Laptimes::class, 'raceId');
     }
 
-    public function driverStandings()
+    public function driverStandings(): HasMany
     {
         return $this->hasMany(DriverStandings::class, 'raceId', 'raceId');
     }
 
-    public function qualifying()
+    public function qualifying(): HasMany
     {
         return $this->hasMany(Qualifying::class, 'raceId');
     }
 
-    public function results()
+    public function results(): HasMany
     {
         return $this->hasMany(Results::class, 'raceId', 'raceId');
     }
 
-    public function circuits()
+    public function circuits(): BelongsTo
     {
         return $this->belongsTo(Circuits::class, 'circuitId', 'circuidId');
     }

@@ -9,9 +9,15 @@ use Illuminate\Support\Str;
 class GrandPrixService
 {
     protected string $gpName = "";
-    private function formatGpName($gpName) : void
+
+    /**
+     * Format the provided Grand Prix name by replacing dashes with spaces and capitalizing each word.
+     * 
+     * @param string $gpName
+     * @return void
+     */
+    private function formatGpName($gpName): void
     {
-        // Format the Grand Prix name (replace hyphens with spaces and title case)
         $formattedGpName = Str::of($gpName)
             ->replace("-", " ")
             ->title()
@@ -19,7 +25,15 @@ class GrandPrixService
 
         $this->gpName = $formattedGpName;
     }
-    public function validateGpName($gpName) : mixed
+
+    /**
+     * Validate the provided grand prix name
+     * 
+     * @param string $gpName
+     * @return mixed return null if validation passes
+     * @throws InvalidGrandPrixException if validation fails
+     */
+    public function validateGpName($gpName): mixed
     {
         $this->formatGpName($gpName);
 
@@ -53,7 +67,12 @@ class GrandPrixService
         return null;
     }
 
-    public function getGpName() : string
+    /**
+     * Retrieve the formatted grand prix name
+     * 
+     * @return string
+     */
+    public function getGpName(): string
     {
         return $this->gpName;
     }

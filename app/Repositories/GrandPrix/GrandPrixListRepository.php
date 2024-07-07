@@ -13,6 +13,11 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class GrandPrixListRepository
 {
+    /**
+     * Retrieve all the races names and locations for the current season 
+     * 
+     * @return ResourceCollection
+     */
     public function getCurrentSeasonRounds(): ResourceCollection
     {
         $season = Carbon::now()->year;
@@ -24,6 +29,12 @@ class GrandPrixListRepository
         return CurrentGrandPrixListResource::collection($grandPrixList);
     }
 
+    /**
+     * Retrieve all the races names and locations for the given season
+     * 
+     * @param int season
+     * @return ResourceCollection
+     */
     public function getRoundsBySeason(int $season): ResourceCollection
     {
         $grandPrixList = Circuits::select("circuits.circuitId", "location", "country", "races.name", "races.time", "races.date")
@@ -33,6 +44,13 @@ class GrandPrixListRepository
 
         return GrandPrixListBySeasonResource::collection($grandPrixList);
     }
+
+    /**
+     * Retrieve all the races names, locations and drivers podium with the given grand prix name
+     * 
+     * @param string season
+     * @return ResourceCollection
+     */
     public function getRoundsByName(string $name): ResourceCollection
     {
         $raceId = Races::where("name", $name)

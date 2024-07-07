@@ -12,20 +12,19 @@ use App\Models\Races;
 class GrandPrixRepository
 {
     protected Collection $raceResult;
-    protected Collection $qualiResult;
-    protected $raceName;
-    protected $raceWinner;
-    protected $poleMan = [];
-    protected $circuit;
+    protected ?Collection $qualiResult = null;
+    protected Races $raceName;
+    protected Races $circuit;
+    protected array $raceWinner;
+    protected ?array $poleMan = null;
     protected int $raceId;
 
     /**
-     * Get detailed Grand Prix data.
+     * Retrieve and compile detailed Grand Prix data with the given grand prix name and season.
      *
      * @param string $name
      * @param int $season
      * @return GrandPrixResource
-     * @throws InvalidGrandPrixException
      */
     public function getGrandPrixData(string $name, int $season): GrandPrixResource
     {
@@ -75,7 +74,7 @@ class GrandPrixRepository
      * @param string $name
      * @param int $season
      * @return void
-     * @throws InvalidGrandPrixException
+     * @throws InvalidGrandPrixException if there is no race for this season
      */
     private function setRaceId(string $name, int $season): void
     {
@@ -91,7 +90,7 @@ class GrandPrixRepository
     }
 
     /**
-     * Set the race name from the current race
+     * Set the race name for the current race
      * 
      * @return void
      */

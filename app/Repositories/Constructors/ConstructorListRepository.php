@@ -9,10 +9,22 @@ use App\Http\Resources\Constructors\AllConstructorsBySeasonResource;
 
 class ConstructorListRepository
 {
+    /**
+     * Retrieve all constructor information
+     * 
+     * @return ResourceCollection
+     */
     public function getAllConstructors(): ResourceCollection
     {
         return AllConstructorsResource::collection(Constructors::all());
     }
+
+    /**
+     * Retrieve all constructor information with the given season
+     * 
+     * @param int $season
+     * @return ResourceCollection
+     */
     public function getAllConstructorsBySeason(int $season): ResourceCollection
     {
         $constructors = Constructors::select("constructors.*")

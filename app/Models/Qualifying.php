@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Qualifying extends Model
 {
@@ -22,17 +23,17 @@ class Qualifying extends Model
     ];
     public $timestamps = false;
 
-    public function races()
+    public function races(): BelongsTo
     {
         return $this->belongsTo(Races::class, 'raceId', 'raceId');
     }
 
-    public function drivers()
+    public function drivers(): BelongsTo
     {
         return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
     }
 
-    public function results()
+    public function results(): BelongsTo
     {
         return $this->belongsTo(Results::class, 'raceId', 'raceId')
                         ->where('results.driverId', 'driverId');  

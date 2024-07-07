@@ -7,14 +7,16 @@ use App\Http\Resources\Analysis\AnalysisRacesResource;
 use App\Http\Resources\Analysis\AnalysisSeasonsResource;
 use App\Models\Races;
 use App\Models\Results;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class AnalysisRepository
 {
     /**
-     * Get the list of available seasons for analysis data (lap times and race report).
+     * retrieve the list of available seasons for analysis data (lap times and race report).
+     * 
+     * @return ResourceCollection
      */
-    public function getSeasonsList(): AnonymousResourceCollection
+    public function getSeasonsList(): ResourceCollection
     {
         return AnalysisSeasonsResource::collection(Races::whereHas('laptimes')
             ->distinct()
@@ -25,9 +27,10 @@ class AnalysisRepository
     /**
      * Get the list of grand prix for a specific season.
      *
-     * @param int $season.
+     * @param int $season
+     * @return ResourceCollection
      */
-    public function getGrandPrixList(int $season): AnonymousResourceCollection
+    public function getGrandPrixList(int $season): ResourceCollection
     {
         return AnalysisRacesResource::collection(Races::select('name')
             ->where('year', $season)
@@ -35,12 +38,13 @@ class AnalysisRepository
     }
 
     /**
-     * Get the list of drivers for a specific season and grand prix.
+     * Retrieve and compile a list of drivers for a specific season and grand prix name.
      *
-     * @param int $season.
-     * @param string $gpName .
+     * @param int $season
+     * @param string $gpName
+     * @return ResourceCollection
      */
-    public function getDriversList(int $season, string $gpName): AnonymousResourceCollection
+    public function getDriversList(int $season, string $gpName): ResourceCollection
     {
         $results = Results::with('races', 'drivers')
             ->whereHas('races', function ($query) use ($season, $gpName) {

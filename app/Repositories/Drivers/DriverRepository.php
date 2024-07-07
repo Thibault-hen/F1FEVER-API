@@ -7,38 +7,54 @@ use App\Models\Drivers;
 use App\Models\DriverStandings;
 use App\Models\Races;
 use App\Models\Results;
-use App\Models\Sprintresults;
 use App\Services\WikiDataService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class DriverRepository
 {
     protected int $driverId;
-    protected $driverBasicData;
-    protected $driverFirstRace = [];
-    protected $driverLastRace = [];
-    protected $driverWikiImg;
-    protected $driverRaceStats;
-    protected $driverTotalSeasons;
+    protected Drivers $driverBasicData;
+    protected ?Collection $driverFirstRace = null;
+    protected ?Collection $driverLastRace = null;
+    protected ?Collection $driverRaceStats = null;
+    protected ?Collection $driverTotalSeasons = null;
+    protected ?string $driverWikiImg = null;
+
     public function __construct(
         protected WikiDataService $wikiDataService
     ) {
     }
 
+    /**
+     * Set the correct driverId with the given driver reference
+     * 
+     * @param string $driver
+     * @return void
+     */
     private function setDriverId(string $name): void
     {
         $this->driverId = Drivers::where('driverRef', $name)
             ->value('driverId');
     }
 
+    /**
+     * Retrieve and set driver information for the current driverId
+     * 
+     * @return void
+     */
     private function setDriverBasicData(): void
     {
         $this->driverBasicData = Drivers::find($this->driverId);
     }
 
+    /**
+     * Retrieve and set driver first race information for the current driverId
+     * 
+     * @return void
+     */
     private function setDriverFirstRace(): void
     {
-        //Retrieving the first race year and round value in order to get the proper race name and country
         $firstRaceDate = Results::select(
             DB::raw('MIN(races.year) as first_race_year'),
             DB::raw('MIN(races.round) as first_race_round')
@@ -62,6 +78,11 @@ class DriverRepository
         }
     }
 
+    /**
+     * Retrieve and set driver last race information for the current driverId
+     * 
+     * @return void
+     */
     private function setDriverLastRace(): void
     {
         //Retrieving the first race year and round value in order to get the proper race name and country
@@ -88,6 +109,11 @@ class DriverRepository
         }
     }
 
+    /**
+     * Retrieve and set driver race stats for the current driverId
+     * 
+     * @return void
+     */
     private function setRaceStats(): void
     {
         $raceStats = Drivers::with('results', 'sprintResults')
@@ -108,6 +134,11 @@ class DriverRepository
         $this->driverRaceStats = $mergedStats;
     }
 
+    /**
+     * Retrieve and set driver alla active seasons for the current driverId
+     * 
+     * @return void
+     */
     public function setActiveSeasons(): void
     {
         $totalSeasons = Results::select('races.year')
@@ -116,9 +147,15 @@ class DriverRepository
             ->groupBy('races.year')
             ->get();
 
-        $this->driverTotalSeasons = collect($totalSeasons);
+        $this->driverTotalSeasons = $totalSeasons;
     }
-    
+
+    /**
+     * Retrieve and compile driver data with the given driver reference
+     * 
+     * @param string $name
+     * @return DriverResource
+     */
     public function getDriverData(string $name): DriverResource
     {
         $this->setDriverId($name);
@@ -129,7 +166,7 @@ class DriverRepository
         $this->setDriverLastRace();
         $this->setRaceStats();
 
-        $this->wikiDataService->setWikiData($this->driverBasicData->first()->url);
+        $this->wikiDataService->setWikiData($this->driverBasicData->url);
         $this->driverWikiImg = $this->wikiDataService->getWikiImg();
 
         return new DriverResource([

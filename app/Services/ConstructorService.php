@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Validator;
 
 class ConstructorService
 {
+    /**
+     * Validate the provided constructor reference
+     * 
+     * @param string $name
+     * @return mixed return null if validation passes
+     * @throws InvalidConstructorException if validation fails
+     */
     public function validateConstructorName($name): mixed
     {
         $rules = [

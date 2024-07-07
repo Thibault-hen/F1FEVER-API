@@ -15,7 +15,7 @@ class DriverStandingsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "name" => "{$this->forename} {$this->surname}",
+            "name" => $this->forename . ' ' .  $this->surname,
             "code" => $this->code,
             "nationality" => $this->nationality,
             "position" => (string) $this->position,

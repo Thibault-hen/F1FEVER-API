@@ -6,6 +6,13 @@ use App\Exceptions\InvalidCircuitException;
 use Illuminate\Support\Facades\Validator;
 
 class CircuitService{
+    /**
+     * Validate the provided circuit reference
+     * 
+     * @param string $name
+     * @return mixed return null if validation passes
+     * @throws InvalidCircuitException if validation fails
+     */
     public function validateCircuitName($name): mixed
     {
         $rules = [

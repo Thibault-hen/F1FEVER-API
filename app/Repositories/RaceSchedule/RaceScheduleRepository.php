@@ -15,14 +15,25 @@ class RaceScheduleRepository
         $this->season = Carbon::now()->year;
     }
 
-    private function getLastRound(): int
+    /**
+     * Retrieve the last race round number for the current season.
+     * 
+     * @return ?int
+     */
+    private function getLastRound(): ?int
     {
         return Races::join("results", "races.raceId", "results.raceId")
             ->where("races.year", $this->season)
             ->max("races.round");
     }
 
-    public function getNextRound() : NextRaceResource
+
+    /**
+     * Retrieve the next race round for the current season using result from the getLastRound() method
+     * 
+     * @return NextRaceResource
+     */
+    public function getNextRound(): NextRaceResource
     {
         $lastRound = $this->getLastRound() + 1;
 
@@ -38,9 +49,16 @@ class RaceScheduleRepository
         return new NextRaceResource((object)$mergedData);
     }
 
+
+    /**
+     * Retrieve the grand prix name of the last race using the result from the getLastRound method
+     * 
+     * @return string
+     */
     public function getLastGpName(): string
     {
         $lastRound = $this->getLastRound();
+
         return Races::where("races.round", $lastRound)
             ->where("year", $this->season)
             ->value("name");

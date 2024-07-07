@@ -7,36 +7,54 @@ use App\Models\Constructors;
 use App\Models\ConstructorStandings;
 use App\Models\Races;
 use App\Models\Results;
-use App\Models\Sprintresults;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use App\Services\WikiDataService;
 
 class ConstructorRepository
 {
-    protected $constructorId;
-    protected $constructorBasicData;
-    protected $constructorFirstRace = [];
-    protected $constructorLastRace = [];
-    protected $constructorWikiImg;
-    protected $constructorRaceStats;
-    protected $constructorTotalSeasons;
+    protected int $constructorId;
+    protected Constructors $constructorBasicData;
+    protected ?Collection $constructorFirstRace = null;
+    protected ?Collection $constructorLastRace = null;
+    protected ?string $constructorWikiImg = null;
+    protected Collection $constructorRaceStats;
+    protected Collection $constructorTotalSeasons;
 
     public function __construct(
         protected WikiDataService $wikiDataService
     ) {
     }
+
+    /**
+     * Set the correct constructorId with the given constructor reference
+     * 
+     * @param string $name
+     * @return void
+     */
     private function setConstructorId(string $name): void
     {
         $this->constructorId = Constructors::where('constructorRef', $name)
             ->value('constructorId');
     }
-    private function setConstructorBasicData()
+
+    /**
+     * Retrieve and set constructor information for the current constructorId
+     * 
+     * @return void
+     */
+    private function setConstructorBasicData(): void
     {
         $this->constructorBasicData = Constructors::find($this->constructorId);
     }
+
+    /**
+     * Retrieve and set constructor firt race information for the current constructorId
+     * 
+     * @return void
+     */
     private function setConstructorFirstRace(): void
     {
-        //Retrieving the first race year and round value in order to get the proper race name and country
         $firstRaceDate = Results::select(
             DB::raw('MIN(races.year) as first_race_year'),
             DB::raw('MIN(races.round) as first_race_round')
@@ -59,9 +77,14 @@ class ConstructorRepository
             $this->constructorFirstRace = $firstRaceData;
         }
     }
+
+    /**
+     * Retrieve and set constructor last race information for the current constructorId
+     * 
+     * @return void
+     */
     private function setConstructorLastRace(): void
     {
-        //Retrieving the first race year and round value in order to get the proper race name and country
         $lastRaceDate = ConstructorStandings::select(
             DB::raw('MAX(races.year) as last_race_year'),
             DB::raw('MAX(races.raceId) as last_race_id')
@@ -84,6 +107,12 @@ class ConstructorRepository
             $this->constructorLastRace = $lastRaceData;
         }
     }
+
+    /**
+     * Retrieve and set constructor race stats for the current constructorId
+     * 
+     * @return void
+     */
     private function setRaceStats(): void
     {
         $raceStats = Constructors::with('results', 'sprintResults')
@@ -103,6 +132,12 @@ class ConstructorRepository
 
         $this->constructorRaceStats = $mergedStats;
     }
+
+    /**
+     * Retrieve and set constructor total active seasons for the current constructorId
+     * 
+     * @return void
+     */
     public function setActiveSeasons(): void
     {
         $totalSeaons = Results::select('races.year')
@@ -113,7 +148,14 @@ class ConstructorRepository
 
         $this->constructorTotalSeasons = collect($totalSeaons);
     }
-    public function getConstructorData(string $name)
+
+    /**
+     * Retrieve and compile constructor data with the given constructor reference
+     * 
+     * @param $name
+     * @return ConstructorResource
+     */
+    public function getConstructorData(string $name): ConstructorResource
     {
         $this->setConstructorId($name);
 
@@ -123,7 +165,7 @@ class ConstructorRepository
         $this->setConstructorLastRace();
         $this->setActiveSeasons();
 
-        $this->wikiDataService->setWikiData($this->constructorBasicData->first()->url);
+        $this->wikiDataService->setWikiData($this->constructorBasicData->url);
         $this->constructorWikiImg = $this->wikiDataService->getWikiImg();
 
         return new ConstructorResource([

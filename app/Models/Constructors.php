@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Constructors extends Model
 {
@@ -18,12 +19,12 @@ class Constructors extends Model
     ];
     public $timestamps = false;
 
-    public function results()
+    public function results(): HasMany
     {
         return $this->hasMany(Results::class, 'constructorId', 'constructorId');
     }
 
-    public function sprintResults()
+    public function sprintResults(): HasMany
     {
         return $this->hasMany(Sprintresults::class, 'constructorId', 'constructorId');
     }

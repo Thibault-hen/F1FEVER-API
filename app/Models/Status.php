@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Status extends Model
 {
@@ -15,7 +16,7 @@ class Status extends Model
     ];
     public $timestamps = false;
 
-    public function results()
+    public function results(): HasMany
     {
         return $this->hasMany(Results::class, 'statusId', 'statusId');
     }

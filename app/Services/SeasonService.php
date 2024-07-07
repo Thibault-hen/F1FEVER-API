@@ -7,9 +7,15 @@ use Illuminate\Support\Facades\Validator;
 
 class SeasonService
 {
+    /**
+     * Validate the provided season
+     * 
+     * @param int $season
+     * @return mixed return null if validation passes
+     * @throws InvalidSeasonException if validation fails
+     */
     public function validateSeasonRange($season): mixed
     {
-        // Validation rules
         $rules = [
             "season" => [
                 "required",
@@ -18,7 +24,6 @@ class SeasonService
             ],
         ];
 
-        // Custom error messages
         $messages = [
             "season.required" => "The season is required.",
             "season.integer" => "The season must be a valid integer.",

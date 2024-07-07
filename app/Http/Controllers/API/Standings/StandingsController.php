@@ -27,6 +27,7 @@ class StandingsController extends Controller
 
         return response()->json(['data' => $standings], 200);
     }
+
     public function driverStandings(Request $request): JsonResponse
     {
         return $this->getStandings($request->route('season'), 'drivers');

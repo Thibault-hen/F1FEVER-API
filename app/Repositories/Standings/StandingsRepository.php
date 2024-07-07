@@ -6,21 +6,25 @@ use App\Http\Resources\Standings\DriverStandingsResource;
 use App\Http\Resources\Standings\ConstructorStandingsResource;
 use App\Models\Drivers;
 use App\Models\Constructors;
-use App\Models\DriverStandings;
-use App\Models\Races;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 use Illuminate\Support\Facades\DB;
 
 class StandingsRepository
 {
-    public function drivers(int $season)
+    /**
+     * Retrieve the drivers standings with the given season
+     * 
+     * @param int season
+     * @return ResourceCollection
+     */
+    public function drivers(int $season): ResourceCollection
     {
 
         return DriverStandingsResource::collection(Drivers::select(
             'drivers.driverId',
             'drivers.code',
             'drivers.nationality',
-            'drivers.forename', 
+            'drivers.forename',
             'drivers.surname',
             'driverStandings.points',
             'driverStandings.position',
@@ -40,6 +44,13 @@ class StandingsRepository
             ->orderBy('driverStandings.position')
             ->get());
     }
+
+    /**
+     * Retrieve the constructors standings with the given season
+     * 
+     * @param int season
+     * @return ResourceCollection
+     */
     public function constructors(int $season): ResourceCollection
     {
         return ConstructorStandingsResource::collection(Constructors::select(

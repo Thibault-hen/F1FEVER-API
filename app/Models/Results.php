@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Results extends Model
 {
@@ -31,32 +33,32 @@ class Results extends Model
     ];
     public $timestamps = false;
 
-    public function races()
+    public function races(): BelongsTo
     {
         return $this->belongsTo(Races::class, 'raceId', 'raceId');
     }
 
-    public function drivers()
+    public function drivers(): BelongsTo
     {
         return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
     }
 
-    public function constructors()
+    public function constructors(): BelongsTo
     {
         return $this->belongsTo(Constructors::class, 'constructorId', 'constructorId');
     }
 
-    public function status()
+    public function status(): BelongsTo
     {
         return $this->belongsTo(Status::class, 'statusId', 'statusId');
     }
     
-    public function sprintResults()
+    public function sprintResults(): HasOne
     {
         return $this->hasOne(Sprintresults::class, 'driverId', 'driverId');
     }
     
-    public function qualifying()
+    public function qualifying(): HasOne
     {
         return $this->hasOne(Qualifying::class, 'raceId', 'raceId')
                     ->whereColumn('qualifying.driverId', 'driverId');

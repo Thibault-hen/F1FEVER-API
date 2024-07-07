@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class DriverStandings extends Model
 {
@@ -20,12 +21,12 @@ class DriverStandings extends Model
     ];
     public $timestamps = false;
 
-    public function races()
+    public function races(): BelongsTo
     {
         return $this->belongsTo(Races::class, 'raceId', 'raceId');
     }
 
-    public function drivers()
+    public function drivers(): BelongsTo
     {
         return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
     }

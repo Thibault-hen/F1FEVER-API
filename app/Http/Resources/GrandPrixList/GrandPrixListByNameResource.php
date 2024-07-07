@@ -28,7 +28,7 @@ class GrandPrixListByNameResource extends JsonResource
                 'third' => $this->getPodiumPosition($this->podium, 3),
             ],
             'slug' => $this->formatUrlSlug($this->name),
-            'season' => $this->formatUrlDate($this->date)
+            'season' => (string) $this->formatUrlDate($this->date)
         ];
     }
 

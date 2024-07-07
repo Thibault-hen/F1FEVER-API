@@ -11,7 +11,13 @@ class WikiDataService
     public string $url = 'https://en.wikipedia.org/wiki/';
     protected string $wikiSummary;
     protected string $wikiImg = '';
-    public function setWikiData(string $url)
+
+    /**
+     * Retrieve and set wikipedia main image with the given wikipedia url
+     * 
+     * @return void
+     */
+    public function setWikiData(string $url): void
     {
         $pageTitle = basename($url);
 
@@ -38,11 +44,12 @@ class WikiDataService
             }
         }
     }
-    public function getWikiSummary(): string
-    {
-        return $this->wikiSummary;
-    }
 
+    /**
+     * Retrieve the wiki main image link
+     * 
+     * @return string
+     */
     public function getWikiImg(): string
     {
         return $this->wikiImg;

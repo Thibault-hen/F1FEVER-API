@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Sprintresults extends Model
 {
@@ -29,7 +30,7 @@ class Sprintresults extends Model
     ];
     public $timestamps = false;
 
-    public function driver()
+    public function driver(): BelongsTo
     {
         return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
     }

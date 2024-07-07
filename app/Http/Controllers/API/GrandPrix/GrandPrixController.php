@@ -25,11 +25,13 @@ class GrandPrixController extends Controller
     ) {
         $this->currentYear = Carbon::now()->year;
     }
+
     public function getGrandPrix(Request $request): JsonResponse
     {
         $season = $request->route('season');
         $name = $request->route('name');
 
+        
         if ($request->is('api/grand-prix/latest')) {
             $season = $this->currentYear;
             $name = $this->raceScheduleRepository->getLastGpName();
@@ -42,6 +44,7 @@ class GrandPrixController extends Controller
 
         return response()->json(['data' => $grandPrixResults], 200);
     }
+
     public function getGrandPrixPreview(): JsonResponse
     {
         $gpName = $this->raceScheduleRepository->getLastGpName();

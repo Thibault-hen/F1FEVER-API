@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Validator;
 
 class DriverService
 {
+    /**
+     * Validate the provided driver reference
+     * 
+     * @param string $name
+     * @return mixed return null if validation passes
+     * @throws InvalidDriverException if validation fails
+     */
     public function validateDriverName($name): mixed
     {
         $rules = [
