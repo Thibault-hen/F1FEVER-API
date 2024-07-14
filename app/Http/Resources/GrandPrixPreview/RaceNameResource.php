@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\GrandPrixPreview;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class RaceNameResource extends JsonResource
 {
@@ -16,7 +18,10 @@ class RaceNameResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'year' => (string) $this->year
+            'year' => (string) $this->year,
+            'date' => $this->date,
+            'time' => Carbon::createFromFormat('H:i:s', $this->time)->format('H:i'),
+            'slug' => $this->year . '/' . Str::slug($this->name)
         ];
     }
 }

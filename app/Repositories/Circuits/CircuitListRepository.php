@@ -27,10 +27,10 @@ class CircuitListRepository
      */
     public function getAllCircuitsBySeason(int $season): ResourceCollection
     {
-        $circuits = Circuits::join("races", "races.circuitId", "circuits.circuitId")
-            ->where("races.year", $season)
-            ->get();
-
-        return AllCircuitsBySeasonResource::collection($circuits);
+        return AllCircuitsBySeasonResource::collection(
+            Circuits::join("races", "races.circuitId", "circuits.circuitId")
+                ->where("races.year", $season)
+                ->get()
+        );
     }
 }

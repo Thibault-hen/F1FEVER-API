@@ -27,13 +27,14 @@ class ConstructorListRepository
      */
     public function getAllConstructorsBySeason(int $season): ResourceCollection
     {
-        $constructors = Constructors::select("constructors.*")
-            ->distinct()
-            ->join("constructorstandings", "constructors.constructorId", "constructorstandings.constructorId")
-            ->join("races", "constructorstandings.raceId", "races.raceId")
-            ->where("races.year", $season)
-            ->get();
+        return AllConstructorsBySeasonResource::collection(
+            Constructors::select("constructors.*")
+                ->distinct()
+                ->join("constructorstandings", "constructors.constructorId", "constructorstandings.constructorId")
+                ->join("races", "constructorstandings.raceId", "races.raceId")
+                ->where("races.year", $season)
+                ->get()
+        );
 
-        return AllConstructorsBySeasonResource::collection($constructors);
     }
 }

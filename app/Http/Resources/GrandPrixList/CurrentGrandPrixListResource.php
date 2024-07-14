@@ -2,8 +2,10 @@
 
 namespace App\Http\Resources\GrandPrixList;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class CurrentGrandPrixListResource extends JsonResource
 {
@@ -19,7 +21,8 @@ class CurrentGrandPrixListResource extends JsonResource
             'location' => $this->location,
             'country' => $this->country,
             'time' => $this->time,
-            'date' => $this->date
+            'date' => $this->date,
+            'slug' => Carbon::parse($this->date)->format('Y') . '/' . Str::slug($this->name)
         ];
     }
 }
