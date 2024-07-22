@@ -41,12 +41,18 @@ class RaceScheduleRepository
             ->where("year", $this->season)
             ->firstOrFail();
 
+        $formattedRaceInfo = [
+            'year' => $nextRaceInfo->year,
+            'time' => $nextRaceInfo->time,
+            'date' => $nextRaceInfo->date,
+            'gp_name' => $nextRaceInfo->name,
+        ];
+        // dd($test);
         $nextRaceCircuit = Circuits::where("circuitId", $nextRaceInfo->circuitId)
             ->firstOrFail();
 
-        $mergedData = array_merge($nextRaceInfo->toArray(), $nextRaceCircuit->toArray());
-        
-        return new NextRaceResource((object)$mergedData);
+        $mergedData = array_merge($formattedRaceInfo, $nextRaceCircuit->toArray());
+        return new NextRaceResource((object) $mergedData);
     }
 
 
@@ -62,5 +68,5 @@ class RaceScheduleRepository
         return Races::where("races.round", $lastRound)
             ->where("year", $this->season)
             ->value("name");
-    } 
+    }
 }

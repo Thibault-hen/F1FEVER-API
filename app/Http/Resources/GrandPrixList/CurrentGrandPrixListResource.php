@@ -22,7 +22,8 @@ class CurrentGrandPrixListResource extends JsonResource
             'country' => $this->country,
             'time' => $this->time,
             'date' => $this->date,
-            'slug' => Carbon::parse($this->date)->format('Y') . '/' . Str::slug($this->name)
+            'year' => Carbon::parse($this->date)->format('Y'),
+            'slug' => Str::slug($this->name)
         ];
     }
 }

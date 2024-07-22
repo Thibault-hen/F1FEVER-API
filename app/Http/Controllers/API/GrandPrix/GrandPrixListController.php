@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\GrandPrix;
 
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Repositories\GrandPrix\GrandPrixListRepository;
 use App\Services\GrandPrixService;
@@ -30,13 +31,13 @@ class GrandPrixListController extends Controller
 
     public function getRoundsBySeason(Request $request): JsonResponse
     {
-        $season = $request->route('season');
-
+        $season = $request->route('season') ?? Carbon::now()->year;
+        
         $this->seasonService->validateSeasonRange($season);
 
         $grandPrixList = $this->grandPrixListRepository->getRoundsBySeason($season);
 
-        return response()->json(['Data' => $grandPrixList], 200);
+        return response()->json(['data' => $grandPrixList], 200);
     }
 
     public function getRoundsByName(Request $request): JsonResponse

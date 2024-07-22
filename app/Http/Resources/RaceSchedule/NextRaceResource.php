@@ -15,7 +15,8 @@ class NextRaceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'name' => $this->name,
+            'gp_name' => $this->gp_name,
+            'circuit_name' => $this->name,
             'date' => $this->date,
             'time' => $this->time,
             'wikipedia_link' => $this->url,

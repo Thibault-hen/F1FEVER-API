@@ -21,7 +21,7 @@ class RaceNameResource extends JsonResource
             'year' => (string) $this->year,
             'date' => $this->date,
             'time' => Carbon::createFromFormat('H:i:s', $this->time)->format('H:i'),
-            'slug' => $this->year . '/' . Str::slug($this->name)
+            'slug' => Str::slug($this->name)
         ];
     }
 }

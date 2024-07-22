@@ -14,6 +14,7 @@ use App\Http\Controllers\API\Constructors\ConstructorController;
 use App\Http\Controllers\API\Circuits\CircuitListController;
 use App\Http\Controllers\API\GrandPrix\NextGrandPrixController;
 use App\Http\Controllers\API\GrandPrix\GrandPrixListController;
+use App\Http\Controllers\API\Checker\CheckerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -82,7 +83,7 @@ Route::prefix("/circuits")->controller(CircuitListController::class)->group(func
 Route::prefix("/grand-prix-list")->group(function () {
     Route::get("/next", [NextGrandPrixController::class, "getNextGrandPrix"])->name("grand-prix-list.next");
     Route::get("/current", [GrandPrixListController::class, "getCurrentSeasonRounds"])->name("grand-prix-list.current");
-    Route::get("/season/{season}", [GrandPrixListController::class, "getRoundsBySeason"])->name("grand-prix-list.by_season");
+    Route::get("/season/{season?}", [GrandPrixListController::class, "getRoundsBySeason"])->name("grand-prix-list.by_season");
     Route::get("/name/{name}", [GrandPrixListController::class, "getRoundsByName"])->name("grand-prix-list.by_name");
 });
 
@@ -106,4 +107,10 @@ Route::prefix("/analysis")->controller(AnalysisController::class)->group(functio
 //Seasons list routes
 Route::prefix("/seasons")->controller(SeasonController::class)->group(function () {
     Route::get("/", "getSeasons")->name("seasons.list");
+});
+
+//Checker list routes 
+Route::prefix('/checker')->controller(CheckerController::class)->group(function () {
+    Route::get('/season/{season}', 'checkSeason')->name('checker.season');
+    Route::get('/grand-prix/{season}/{grandprix}', 'checkGrandPrix')->name('checker.grand_prix');
 });
