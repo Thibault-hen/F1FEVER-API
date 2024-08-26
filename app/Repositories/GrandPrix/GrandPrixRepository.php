@@ -5,6 +5,7 @@ namespace App\Repositories\GrandPrix;
 use App\Exceptions\InvalidGrandPrixException;
 use App\Http\Resources\GrandPrix\GrandPrixResource;
 use App\Http\Resources\GrandPrixPreview\GrandPrixPreviewResource;
+use App\Models\Qualifying;
 use App\Models\Results;
 use Illuminate\Support\Collection;
 use App\Models\Races;
@@ -138,10 +139,10 @@ class GrandPrixRepository
     private function setQualiResult(): void
     {
         $raceId = $this->raceId;
-        $qualiResult = Results::with(['drivers', 'constructors', 'races', 'qualifying'])
+
+        $qualiResult = Qualifying::with(['drivers', 'constructors', 'races'])
             ->where('raceId', $raceId)
             ->get();
-
 
         $qualiResultsFormatted = $qualiResult->map(function ($result) {
             return [
@@ -149,10 +150,10 @@ class GrandPrixRepository
                 'surname' => $result->drivers->surname,
                 'nationality' => $result->drivers->nationality,
                 'team' => $result->constructors->name,
-                'q1' => $result->qualifying->q1,
-                'q2' => $result->qualifying->q2,
-                'q3' => $result->qualifying->q3,
-                'position' => $result->qualifying->position,
+                'q1' => $result->qualifying->q1 ?? 'N/A',
+                'q2' => $result->qualifying->q2 ?? 'N/A',
+                'q3' => $result->qualifying->q3 ?? 'N/A',
+                'position' => $result->qualifying->position ?? 'N/A',
             ];
         });
 

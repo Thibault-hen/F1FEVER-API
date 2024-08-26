@@ -47,7 +47,7 @@ class RaceScheduleRepository
             'date' => $nextRaceInfo->date,
             'gp_name' => $nextRaceInfo->name,
         ];
-        // dd($test);
+
         $nextRaceCircuit = Circuits::where("circuitId", $nextRaceInfo->circuitId)
             ->firstOrFail();
 

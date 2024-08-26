@@ -33,9 +33,14 @@ class Qualifying extends Model
         return $this->belongsTo(Drivers::class, 'driverId', 'driverId');
     }
 
+    public function constructors(): BelongsTo
+    {
+        return $this->belongsTo(Constructors::class, 'constructorId', 'constructorId');
+    }
+
     public function results(): BelongsTo
     {
         return $this->belongsTo(Results::class, 'raceId', 'raceId')
-                        ->where('results.driverId', 'driverId');  
+            ->where('results.driverId', 'driverId');
     }
 }
