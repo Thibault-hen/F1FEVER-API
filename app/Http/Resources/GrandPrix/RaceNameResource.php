@@ -4,6 +4,7 @@ namespace App\Http\Resources\GrandPrix;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
 
 class RaceNameResource extends JsonResource
 {
@@ -16,7 +17,8 @@ class RaceNameResource extends JsonResource
     {
         return [
             'name' => $this->name,
-            'year' => (string) $this->year
+            'year' => (string) $this->year,
+            'slug' => Str::slug($this->name)
         ];
     }
 }

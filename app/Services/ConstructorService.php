@@ -20,7 +20,7 @@ class ConstructorService
             'name' => [
                 'required',
                 'string',
-                'regex:/^[\pL_-]+$/u',
+                "regex:/^[\pL\pN\s]+$/u",
                 'exists:constructors,constructorRef'
             ],
         ];

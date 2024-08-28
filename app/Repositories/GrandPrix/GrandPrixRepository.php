@@ -150,10 +150,10 @@ class GrandPrixRepository
                 'surname' => $result->drivers->surname,
                 'nationality' => $result->drivers->nationality,
                 'team' => $result->constructors->name,
-                'q1' => $result->qualifying->q1 ?? 'N/A',
-                'q2' => $result->qualifying->q2 ?? 'N/A',
-                'q3' => $result->qualifying->q3 ?? 'N/A',
-                'position' => $result->qualifying->position ?? 'N/A',
+                'q1' => $result->q1,
+                'q2' => $result->q2,
+                'q3' => $result->q3,
+                'position' => $result->position
             ];
         });
 

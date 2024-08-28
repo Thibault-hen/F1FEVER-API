@@ -5,7 +5,8 @@ namespace App\Services;
 use App\Exceptions\InvalidCircuitException;
 use Illuminate\Support\Facades\Validator;
 
-class CircuitService{
+class CircuitService
+{
     /**
      * Validate the provided circuit reference
      * 
@@ -19,7 +20,7 @@ class CircuitService{
             'name' => [
                 'required',
                 'string',
-                'regex:/^[\pL_-]+$/u',
+                "regex:/^[\pL\pN\s]+$/u",
                 'exists:circuits,circuitRef'
             ],
         ];

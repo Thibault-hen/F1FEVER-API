@@ -42,7 +42,7 @@ class GrandPrixService
             "name" => [
                 "required",
                 "string",
-                "regex:/^[\pL\s]+$/u",
+                "regex:/^[\pL\pN\s]+$/u",
                 "exists:races,name"
             ],
         ];

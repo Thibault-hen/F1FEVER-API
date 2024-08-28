@@ -112,5 +112,5 @@ Route::prefix("/seasons")->controller(SeasonController::class)->group(function (
 //Checker list routes 
 Route::prefix('/checker')->controller(CheckerController::class)->group(function () {
     Route::get('/season/{season}', 'checkSeason')->name('checker.season');
-    Route::get('/grand-prix/{season}/{grandprix}', 'checkGrandPrix')->name('checker.grand_prix');
+    Route::get('/grand-prix/{season}/{name}', 'checkGrandPrix')->name('checker.grand_prix');
 });
