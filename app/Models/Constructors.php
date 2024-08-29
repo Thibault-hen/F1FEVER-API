@@ -28,4 +28,9 @@ class Constructors extends Model
     {
         return $this->hasMany(Sprintresults::class, 'constructorId', 'constructorId');
     }
+
+    public function qualifying(): HasMany
+    {
+        return $this->hasMany(Qualifying::class, 'constructorId', 'constructorId');
+    }
 }

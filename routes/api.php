@@ -7,6 +7,7 @@ use App\Http\Controllers\API\Drivers\DriverListController;
 use App\Http\Controllers\API\GrandPrix\GrandPrixController;
 use App\Http\Controllers\API\LapTimes\LapTimesController;
 use App\Http\Controllers\API\RaceReport\RaceReportController;
+use App\Http\Controllers\API\Records\RecordsController;
 use App\Http\Controllers\API\Seasons\SeasonController;
 use App\Http\Controllers\API\Standings\StandingsController;
 use App\Http\Controllers\API\Constructors\ConstructorListController;
@@ -107,6 +108,12 @@ Route::prefix("/analysis")->controller(AnalysisController::class)->group(functio
 //Seasons list routes
 Route::prefix("/seasons")->controller(SeasonController::class)->group(function () {
     Route::get("/", "getSeasons")->name("seasons.list");
+});
+
+//Seasons list routes
+Route::prefix("/records")->controller(RecordsController::class)->group(function () {
+    Route::get("/drivers", "getDriversRecords")->name("records.drivers");
+    Route::get("/constructors", "getConstructorsRecords")->name("records.constructors");
 });
 
 //Checker list routes 
