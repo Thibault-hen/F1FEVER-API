@@ -181,13 +181,13 @@ class GrandPrixRepository
     private function setPoleman(): void
     {
         $polemanWithQ3 = collect($this->qualiResult)
-            ->filter(fn($result) => !is_null($result['q3']))
+            ->filter(fn($result) => !empty ($result['q3']))
             ->sortBy("q3")
             ->first();
 
         if (is_null($polemanWithQ3)) {
             $polemanWithQ1 = collect($this->qualiResult)
-                ->filter(fn($result) => !is_null($result['q1']))
+                ->filter(fn($result) => !empty ($result['q1']))
                 ->sortBy("q1")
                 ->first();
 

@@ -18,7 +18,7 @@ class RaceResultResource extends JsonResource
             'name' => $this['forename'] . ' ' . $this['surname'],
             'nationality' => $this['nationality'],
             'team' => $this['constructors'],
-            'time' => $this['time'] ?? 'N/A',
+            'time' => $this['time'] ?? null,
             'status' => stripos($this['status'], 'laps') !== false || stripos($this['status'], 'lap') !== false || $this['status'] === 'Finished' ? $this['status'] : 'DNF',
             'laps_completed' => (string) $this['laps'],
             'starting_position' => (string) $this['grid'],

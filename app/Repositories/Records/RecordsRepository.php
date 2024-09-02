@@ -21,6 +21,7 @@ class RecordsRepository
             return [
                 'name' => $driver->forename . ' ' . $driver->surname,
                 'nationality' => $driver->nationality,
+                'wins_percentage' => round(($driver->results->where('positionText', '1')->count() / $driver->results->count()) * 100, 2),
                 'wins' => $driver->results->where('positionText', '1')->count(),
                 'podiums' => $driver->results->whereBetween('positionText', [1, 3])->count(),
                 'poles' => $driver->qualifying->where('position', '1')->count(),
@@ -29,7 +30,6 @@ class RecordsRepository
                 'sprints' => $driver->sprintResults->where('positionText', '1')->count()
             ];
         });
-
         // Function to get the driver with the maximum value for a specific metric
         $getTopDriverByMetric = function ($metric) use ($driversWithStats) {
             $maxValue = $driversWithStats->max($metric);
@@ -37,6 +37,7 @@ class RecordsRepository
         };
 
         $driverMaxWins = $getTopDriverByMetric('wins');
+        $driverMaxWinsPercentage = $getTopDriverByMetric('wins_percentage');
         $driverMaxPodiums = $getTopDriverByMetric('podiums');
         $driverMaxPoles = $getTopDriverByMetric('poles');
         $driverMaxLaps = $getTopDriverByMetric('laps');
@@ -49,6 +50,11 @@ class RecordsRepository
                 'name' => $driverMaxWins['name'],
                 'nationality' => $driverMaxWins['nationality'],
                 'wins' => $driverMaxWins['wins'],
+            ] : null,
+            'wins_percentage' => $driverMaxWinsPercentage ? [
+                'name' => $driverMaxWinsPercentage['name'],
+                'nationality' => $driverMaxWinsPercentage['nationality'],
+                'percentage' => $driverMaxWinsPercentage['wins_percentage'],
             ] : null,
             'total_podiums' => $driverMaxPodiums ? [
                 'name' => $driverMaxPodiums['name'],

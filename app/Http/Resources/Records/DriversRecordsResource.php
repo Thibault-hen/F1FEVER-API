@@ -20,6 +20,11 @@ class DriversRecordsResource extends JsonResource
                 'nationality' => $this->resource['total_wins']['nationality'],
                 'total' => (string) $this->resource['total_wins']['wins']
             ],
+            'wins_percentage' => [
+                'name' => $this->resource['wins_percentage']['name'],
+                'nationality' => $this->resource['wins_percentage']['nationality'],
+                'total' => (string) $this->resource['wins_percentage']['percentage']
+            ],
             'podiums_record' => [
                 'name' => $this->resource['total_podiums']['name'],
                 'nationality' => $this->resource['total_podiums']['nationality'],
