@@ -10,7 +10,7 @@ class InvalidGrandPrixException extends Exception
     {
         parent::__construct($message);
     }
-    
+
     public function render($request)
     {
         return response()->json([

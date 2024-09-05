@@ -25,7 +25,7 @@ class StandingsController extends Controller
 
         $standings = $this->standingsRepository->$type($season);
 
-        return response()->json(['data' => $standings], 200);
+        return response()->json(['data' => ['standings' => $standings, 'season' => (string) $season]], 200);
     }
 
     public function driverStandings(Request $request): JsonResponse

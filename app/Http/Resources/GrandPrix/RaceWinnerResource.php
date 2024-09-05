@@ -17,7 +17,7 @@ class RaceWinnerResource extends JsonResource
         return [
             'name' => $this['forename'] . ' ' . $this['surname'],
             'nationality' => $this['nationality'],
-            'team' => $this['constructors'],
+            'team' => $this['team'],
             'time' => $this['time']
         ];
     }

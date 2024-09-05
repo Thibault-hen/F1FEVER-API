@@ -31,7 +31,7 @@ class GrandPrixController extends Controller
         $season = $request->route('season');
         $name = $request->route('name');
 
-        
+
         if ($request->is('api/grand-prix/latest')) {
             $season = $this->currentYear;
             $name = $this->raceScheduleRepository->getLastGpName();

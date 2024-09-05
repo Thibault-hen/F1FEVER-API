@@ -18,6 +18,7 @@ class QualiResultResource extends JsonResource
             'name' => $this['forename'] . ' ' . $this['surname'],
             'nationality' => $this['nationality'],
             'team' => $this['team'],
+            'team_nationality' => $this['teamNationality'],
             'q1_time' => !empty($this['q1']) ? $this['q1'] : null,
             'q2_time' => !empty($this['q2']) ? $this['q2'] : null,
             'q3_time' => !empty($this['q3']) ? $this['q3'] : null,

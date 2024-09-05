@@ -19,7 +19,6 @@ class StandingsRepository
      */
     public function drivers(int $season): ResourceCollection
     {
-
         return DriverStandingsResource::collection(
             Drivers::select(
                 'drivers.driverId',
