@@ -20,7 +20,7 @@ class DriverService
             'name' => [
                 'required',
                 'string',
-                "regex:/^[\pL\pN\s]+$/u",
+                'regex:/^[\pL\pN_]+$/u',
                 'exists:drivers,driverRef'
             ],
         ];
@@ -28,7 +28,7 @@ class DriverService
         $messages = [
             'name.required' => 'The driver name is required',
             'name.string' => 'The driver name must be a valid string',
-            'name.regex' => 'The driver name can only contain letters',
+            'name.regex' => 'Invalid format provided',
             'name.exists' => 'Cannot found this driver',
         ];
 

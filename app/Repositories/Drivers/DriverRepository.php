@@ -179,7 +179,7 @@ class DriverRepository
             'lastRaceEntered' => $this->driverLastRace,
             'totalSeasons' => [
                 "total" => $this->driverTotalSeasons->count(),
-                "year" => $this->driverTotalSeasons->pluck('year'),
+                "year" => $this->driverTotalSeasons,
             ]
         ]);
     }

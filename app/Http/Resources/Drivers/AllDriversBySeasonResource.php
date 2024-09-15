@@ -20,7 +20,7 @@ class AllDriversBySeasonResource extends JsonResource
             'nationality' => $this->nationality,
             'date_of_birth' => $this->dob,
             'wikipedia_link' => $this->url,
-            'number' => (string) $this->number ?? "N/A",
+            'number' => (string) $this->number ?? null,
             'slug' => Str::slug($this->driverRef)
         ];
     }

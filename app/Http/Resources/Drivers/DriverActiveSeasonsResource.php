@@ -16,7 +16,7 @@ class DriverActiveSeasonsResource extends JsonResource
     {
         return [
             'total' => (string) $this['total'],
-            'seasons_list' => (string) $this['year']
+            'seasons_list' => $this['year']
         ];
     }
 }

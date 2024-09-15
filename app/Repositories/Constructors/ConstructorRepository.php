@@ -178,7 +178,7 @@ class ConstructorRepository
             'lastRaceEntered' => $this->constructorLastRace,
             'totalSeasons' => [
                 "total" => $this->constructorTotalSeasons->count(),
-                "year" => $this->constructorTotalSeasons->pluck('year'),
+                "year" => $this->constructorTotalSeasons,
             ]
         ]);
     }

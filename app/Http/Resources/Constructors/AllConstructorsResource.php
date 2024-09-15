@@ -19,7 +19,7 @@ class AllConstructorsResource extends JsonResource
             'name' => $this->name,
             'nationality' => $this->nationality,
             'wikipedia_link' => $this->url,
-            'slug' => Str::slug($this->constructorRef)
+            'slug' => (string) $this->constructorRef
         ];
     }
 }

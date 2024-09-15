@@ -16,8 +16,8 @@ class DriverInformationResource extends JsonResource
     {
         return [
             'name' => $this['driver']->forename . ' ' . $this['driver']->surname,
-            'number' => (string) $this['driver']->number ?? 'N/A',
-            'code' => $this['driver']->code ?? 'N/A',
+            'number' => !empty($this['driver']->number) ? (string) $this['driver']->number : null,
+            'code' => !empty($this['driver']->code) ? $this['driver']->code : null,
             'date_of_birth' => $this['driver']->dob,
             'nationality' => $this['driver']->nationality,
             'wikipedia_link' => $this['driver']->url,

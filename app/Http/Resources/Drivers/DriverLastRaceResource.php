@@ -16,10 +16,10 @@ class DriverLastRaceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'year' => (string)$this->last_race_year,
+            'year' => (string) $this->last_race_year,
             'name' => $this->name,
             'country' => $this->country,
-            'slug' => Str::slug($this->name) . '/' . $this->last_race_year
+            'slug' => Str::slug($this->name)
         ];
     }
 }

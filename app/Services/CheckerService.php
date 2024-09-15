@@ -26,6 +26,7 @@ class CheckerService
             'message' => 'validation passed',
         ], 200);
     }
+
     public function validateSeason($season): JsonResponse
     {
         $rules = [
@@ -53,6 +54,72 @@ class CheckerService
         }
 
         // Season is valid
+        return response()->json([
+            'success' => 'true',
+            'message' => 'validation passed',
+        ], 200);
+    }
+
+    public function validateDriver($name): JsonResponse
+    {
+        $rules = [
+            "name" => [
+                "required",
+                "string",
+                "exists:drivers,driverRef"
+            ],
+        ];
+
+        $messages = [
+            "name.required" => "The driver name is required.",
+            "name.string" => "The driver name must be a valid string.",
+            "name.exists" => "Cannot found this driver.",
+        ];
+
+        $validator = Validator::make(["name" => $name], $rules, $messages)->stopOnFirstFailure();
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return response()->json([
+                'success' => 'false',
+                'message' => $errors,
+            ], 404);
+        }
+
+        // driver name is valid
+        return response()->json([
+            'success' => 'true',
+            'message' => 'validation passed',
+        ], 200);
+    }
+
+    public function validateConstructor($name): JsonResponse
+    {
+        $rules = [
+            "name" => [
+                "required",
+                "string",
+                "exists:constructors,constructorRef"
+            ],
+        ];
+
+        $messages = [
+            "name.required" => "The constructor name is required.",
+            "name.string" => "The constructor name must be a valid string.",
+            "name.exists" => "Cannot found this constructor.",
+        ];
+
+        $validator = Validator::make(["name" => $name], $rules, $messages)->stopOnFirstFailure();
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->first();
+            return response()->json([
+                'success' => 'false',
+                'message' => $errors,
+            ], 404);
+        }
+
+        // constructor name is valid
         return response()->json([
             'success' => 'true',
             'message' => 'validation passed',

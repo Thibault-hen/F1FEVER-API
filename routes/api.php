@@ -16,7 +16,6 @@ use App\Http\Controllers\API\Circuits\CircuitListController;
 use App\Http\Controllers\API\GrandPrix\NextGrandPrixController;
 use App\Http\Controllers\API\GrandPrix\GrandPrixListController;
 use App\Http\Controllers\API\Checker\CheckerController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -119,5 +118,7 @@ Route::prefix("/records")->controller(RecordsController::class)->group(function 
 //Checker list routes 
 Route::prefix('/checker')->controller(CheckerController::class)->group(function () {
     Route::get('/season/{season}', 'checkSeason')->name('checker.season');
+    Route::get('/driver/{name}', 'checkDriver')->name('checker.driver');
+    Route::get('/constructor/{name}', 'checkConstructor')->name('checker.constructor');
     Route::get('/grand-prix/{season}/{name}', 'checkGrandPrix')->name('checker.grand_prix');
 });

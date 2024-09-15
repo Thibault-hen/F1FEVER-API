@@ -20,7 +20,7 @@ class ConstructorService
             'name' => [
                 'required',
                 'string',
-                "regex:/^[\pL\pN\s]+$/u",
+                "regex:/^[\pL\pN_]+$/u",
                 'exists:constructors,constructorRef'
             ],
         ];
@@ -28,7 +28,7 @@ class ConstructorService
         $messages = [
             'name.required' => 'The constructor name is required',
             'name.string' => 'The constructor name must be a valid string',
-            'name.regex' => 'The constructor name can only contain letters',
+            'name.regex' => 'Invalid format provided',
             'name.exists' => 'Cannot found this constructor',
         ];
 

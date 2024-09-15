@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API\Checker;
 use App\Http\Controllers\Controller;
 use App\Models\Seasons;
 use App\Services\CheckerService;
+use App\Services\ConstructorService;
+use App\Services\DriverService;
 use App\Services\GrandPrixService;
 use App\Services\SeasonService;
 use Illuminate\Http\Request;
@@ -14,7 +16,7 @@ class CheckerController extends Controller
     public function __construct(
         protected CheckerService $checkerService,
         protected SeasonService $seasonService,
-        protected GrandPrixService $grandPrixService
+        protected GrandPrixService $grandPrixService,
     ) {
     }
     public function checkSeason(Request $request)
@@ -33,5 +35,19 @@ class CheckerController extends Controller
         $this->grandPrixService->validateGpName($gpName);
 
         return $this->checkerService->validateGrandPrix($season, $this->grandPrixService->getGpName());
+    }
+
+    public function checkDriver(Request $request)
+    {
+        $name = $request->route('name');
+
+        return $this->checkerService->validateDriver($name);
+    }
+
+    public function checkConstructor(Request $request)
+    {
+        $name = $request->route('name');
+
+        return $this->checkerService->validateConstructor($name);
     }
 }

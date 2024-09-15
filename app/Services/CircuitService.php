@@ -20,7 +20,7 @@ class CircuitService
             'name' => [
                 'required',
                 'string',
-                "regex:/^[\pL\pN\s]+$/u",
+                'regex:/^[\pL\pN\s]+$/u',
                 'exists:circuits,circuitRef'
             ],
         ];
